@@ -1,7 +1,7 @@
 # Real acceptance release gate
 
 Public real-toolchain evidence is release-specific. The normal release gate requires
-`site/dist/real-evidence.json` to use `modelbake.public-acceptance.v2` and binds it
+`site/dist/real-evidence.json` to use `modelbake.public-acceptance.v3` and binds it
 to the exact wheel and source distribution produced by that gate. It also requires
 the warm manifest to be the exact current release in a verified baseline channel:
 the terminal decision must be receipt-backed v2, the review must name a real
@@ -37,9 +37,10 @@ python3 scripts/generate_public_evidence.py \
   --output site/dist/real-evidence.json
 ```
 
-Generation exposes only the baseline channel and digest identifiers for the current
-decision, its consumed review, the exact candidate manifest, its predecessor, and
-the reviewed comparison. The private decision, review body, paths, commands, logs,
+Generation exposes the baseline channel and digest identifiers for the current
+decision, its consumed review, the exact candidate manifest, its predecessor, the
+reviewed comparison, and the validated command shape. Local paths are replaced by
+digest-bound placeholders. The private decision, review body, prompt text, logs,
 and annotations stay out of the public JSON. This is a publisher-generated
 compare-and-swap (CAS) acceptance. It records no actor identity, authorization,
 independent attestation, or model-quality judgment.

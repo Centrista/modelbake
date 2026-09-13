@@ -244,7 +244,7 @@ def test_site_real_evidence_requires_cas_decision_review_and_candidate_binding(
     path = tmp_path / "real-evidence.json"
     candidate = "sha256:" + "3" * 64
     payload = {
-        "schema": "modelbake.public-acceptance.v2",
+        "schema": "modelbake.public-acceptance.v3",
         "acceptance": {
             "kind": "publisher-generated-cas-acceptance",
             "channel": "production",
@@ -253,6 +253,13 @@ def test_site_real_evidence_requires_cas_decision_review_and_candidate_binding(
             "candidate_manifest_digest": candidate,
             "predecessor_decision_digest": "sha256:" + "4" * 64,
             "comparison_digest": "sha256:" + "5" * 64,
+        },
+        "commands": {
+            "path_policy": "Local paths replaced with digest-bound placeholders.",
+            "nodes": [
+                {"display_argv": ["command", str(index)]}
+                for index in range(5)
+            ],
         },
         "warm_run": {"manifest": {"modelbake_digest": candidate}},
     }
@@ -355,7 +362,7 @@ def test_publish_bundle_contains_only_public_files_with_exhaustive_checksums(
     inventory = stage / "archive-inventory.json"
     inventory.write_text('{"archives":[]}\n', encoding="utf-8")
     evidence = tmp_path / "real-evidence.json"
-    evidence.write_text('{"schema":"modelbake.public-acceptance.v2"}\n', encoding="utf-8")
+    evidence.write_text('{"schema":"modelbake.public-acceptance.v3"}\n', encoding="utf-8")
     (stage / "private-manifest.json").write_text("private", encoding="utf-8")
 
     publish = release_check.create_publish_bundle(

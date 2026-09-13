@@ -170,6 +170,17 @@ def _manifest(
     warm: bool,
 ) -> dict[str, Any]:
     nodes: list[dict[str, Any]] = []
+    output_digests = {
+        node_id: tree_digest(artifact_root / f"{node_id}.bin")
+        for node_id, _, _ in NODE_SPECS
+    }
+    parent_by_node = {
+        "convert-f16-base": "source",
+        "quantize-q4_0": "convert-f16-base",
+        "quantize-q8_0": "convert-f16-base",
+        "smoke-q4_0": "quantize-q4_0",
+        "smoke-q8_0": "quantize-q8_0",
+    }
     for index, (node_id, kind, cold_state) in enumerate(NODE_SPECS):
         artifact = artifact_root / f"{node_id}.bin"
         observations = _base_observations(fingerprint)
@@ -211,9 +222,17 @@ def _manifest(
                 "kind": kind,
                 "state": "cache_hit" if warm else cold_state,
                 "cache_key": f"sha256:{index + 20:064x}",
-                "input_digests": {},
+                "input_digests": (
+                    {}
+                    if kind == "source"
+                    else {
+                        f"{parent_by_node[node_id]}:output": output_digests[
+                            parent_by_node[node_id]
+                        ]
+                    }
+                ),
                 "outputs": {output_name: str(artifact)},
-                "output_digests": {output_name: tree_digest(artifact)},
+                "output_digests": {output_name: output_digests[node_id]},
                 "command": _command(kind, node_id, declared["tools"]),
                 "observations": observations,
                 "duration_ms": 0,
@@ -397,7 +416,7 @@ def test_generates_exact_sanitized_package_bound_evidence(
     acceptance: dict[str, Any], tmp_path: Path
 ) -> None:
     payload = _generate(acceptance)
-    assert payload["schema"] == "modelbake.public-acceptance.v2"
+    assert payload["schema"] == "modelbake.public-acceptance.v3"
     assert payload["release"]["version"] == "1.2.3"
     assert payload["cold_run"]["digest_verification"] == {"checked": 6, "failures": 0}
     assert payload["warm_run"]["states"] == {"cache_hit": 6}
@@ -426,6 +445,17 @@ def test_generates_exact_sanitized_package_bound_evidence(
     assert {node["id"] for node in payload["cold_run"]["nodes"]} == {
         node_id for node_id, _, _ in NODE_SPECS
     }
+    assert payload["commands"]["path_policy"] == (
+        "Local paths replaced with digest-bound placeholders."
+    )
+    assert len(payload["commands"]["nodes"]) == 5
+    q4_command = next(
+        item
+        for item in payload["commands"]["nodes"]
+        if item["node_id"] == "quantize-q4_0"
+    )
+    assert q4_command["display_argv"][0] == "llama-quantize"
+    assert q4_command["display_argv"][-1] == "Q4_0"
     assert not {
         "command",
         "prompt",
@@ -453,7 +483,7 @@ def test_generates_exact_sanitized_package_bound_evidence(
             lambda payload: payload.__setitem__(
                 "schema", "modelbake.public-acceptance.v1"
             ),
-            "schema must be modelbake.public-acceptance.v2",
+            "schema must be modelbake.public-acceptance.v3",
         ),
         (
             lambda payload: payload.__setitem__("unexpected", True),
@@ -486,6 +516,22 @@ def test_generates_exact_sanitized_package_bound_evidence(
         (
             lambda payload: payload["acceptance"].pop("review_digest"),
             "acceptance fields must be exactly",
+        ),
+        (
+            lambda payload: payload["commands"]["nodes"][1][
+                "display_argv"
+            ].__setitem__(-1, "Q8_0"),
+            "quantize-q4_0: displayed quantize argv is invalid",
+        ),
+        (
+            lambda payload: payload["commands"]["nodes"][0].__setitem__(
+                "tool_digest", "sha256:" + "f" * 64
+            ),
+            "displayed argv binding is invalid",
+        ),
+        (
+            lambda payload: payload["commands"]["nodes"].pop(),
+            "public commands must contain five executed nodes",
         ),
     ],
 )

@@ -48,7 +48,7 @@ SHA-256 detects accidental or adversarial byte changes relative to a recorded va
 
 ## Toolchain scope
 
-The real adapter fingerprint records tool paths and byte digests, tool version output where available, the adapter identity, the named runner, and the recipe's revision string. The revision is caller-supplied; v0 does not compare it with a Git checkout or signature. Python, converter, quantizer, and runner remain trusted executables.
+The real adapter fingerprint records tool paths and byte digests, tool version output where available, the adapter identity, the named runner, and the recipe's revision string. When the configured converter is inside a Git checkout, ModelBake requires that revision to equal the observed `HEAD` and records whether the checkout has tracked or untracked changes. If no checkout is discoverable, the revision remains caller-supplied and unverified. ModelBake does not verify a commit signature. Python, converter, quantizer, and runner remain trusted executables.
 
 ## Explicit exclusions
 

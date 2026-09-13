@@ -370,7 +370,7 @@ def validate_site(
 
 
 def _validate_real_evidence(payload: Any, path: Path) -> None:
-    if not isinstance(payload, dict) or payload.get("schema") != "modelbake.public-acceptance.v2":
+    if not isinstance(payload, dict) or payload.get("schema") != "modelbake.public-acceptance.v3":
         raise ReleaseCheckError(f"unexpected real evidence schema in {path.name}")
     acceptance = payload.get("acceptance")
     expected_fields = {
@@ -412,6 +412,24 @@ def _validate_real_evidence(payload: Any, path: Path) -> None:
         raise ReleaseCheckError(
             f"real evidence in {path.name} does not bind acceptance to the warm manifest"
         )
+    commands = payload.get("commands")
+    command_nodes = commands.get("nodes") if isinstance(commands, dict) else None
+    if (
+        not isinstance(commands, dict)
+        or commands.get("path_policy")
+        != "Local paths replaced with digest-bound placeholders."
+        or not isinstance(command_nodes, list)
+        or len(command_nodes) != 5
+        or any(
+            not isinstance(node, dict)
+            or not isinstance(node.get("display_argv"), list)
+            or not node["display_argv"]
+            for node in command_nodes
+        )
+    ):
+        raise ReleaseCheckError(
+            f"real evidence in {path.name} lacks the public command record"
+        )
 
 
 def validate_public_evidence(
@@ -419,7 +437,7 @@ def validate_public_evidence(
     archives: Iterable[Path],
     env: dict[str, str],
 ) -> None:
-    """Require receipt-backed v2 evidence bound to exact staged distributions."""
+    """Require receipt-backed v3 evidence bound to exact staged distributions."""
 
     if evidence.is_symlink() or not evidence.is_file():
         raise ReleaseCheckError(

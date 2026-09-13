@@ -46,7 +46,7 @@ converter route. It does not recursively hash `site-packages`, and therefore doe
 claim the exact bytes of installed dependency code. The configured interpreter and
 converter files remain byte-digested independently.
 
-The adapter trusts all configured executables. The recorded revision string is not validated against a Git checkout. Successful process exit is not a semantic model evaluation.
+The adapter trusts all configured executables. When the converter is inside a Git checkout, the configured revision must match the observed `HEAD`; the manifest also records checkout status and a worktree digest. Without a discoverable checkout, the revision remains caller-supplied. No commit signature is verified. Successful process exit is not a semantic model evaluation.
 
 ModelBake v0 supports the external `llama.cpp` process lifecycle on POSIX only.
 The fixture adapter remains usable for engine testing elsewhere, but Windows external

@@ -98,10 +98,95 @@
       "produced": 4
     }
   },
+  "commands": {
+    "nodes": [
+      {
+        "display_argv": [
+          "python",
+          "convert_hf_to_gguf.py",
+          "<input:sha256:f2a1545d636185ef79093146af8880a8c916d2d649e8d769de5f869d58534c1d>",
+          "--outfile",
+          "<output:sha256:ccc976e561309621569d30e9274ecb64c2d63dd3c431bcafe3ac88e84dde7262>",
+          "--outtype",
+          "f16"
+        ],
+        "input_digest": "sha256:f2a1545d636185ef79093146af8880a8c916d2d649e8d769de5f869d58534c1d",
+        "kind": "convert",
+        "node_id": "convert-f16-base",
+        "output_digest": "sha256:ccc976e561309621569d30e9274ecb64c2d63dd3c431bcafe3ac88e84dde7262",
+        "tool_digest": "sha256:e9a1da876330bbce9687541ab31736542a01b4ac43c6686126514a50f122fb7f"
+      },
+      {
+        "display_argv": [
+          "llama-quantize",
+          "<input:sha256:ccc976e561309621569d30e9274ecb64c2d63dd3c431bcafe3ac88e84dde7262>",
+          "<output:sha256:6d3e8cf71047764f9fcb2859d0216bbcd137947e779d568b01b441f254adbf42>",
+          "Q4_0"
+        ],
+        "input_digest": "sha256:ccc976e561309621569d30e9274ecb64c2d63dd3c431bcafe3ac88e84dde7262",
+        "kind": "quantize",
+        "node_id": "quantize-q4_0",
+        "output_digest": "sha256:6d3e8cf71047764f9fcb2859d0216bbcd137947e779d568b01b441f254adbf42",
+        "tool_digest": "sha256:ddc878d6c1aa614492674395b266f10562564e25d796cc939737813b27ba9e22"
+      },
+      {
+        "display_argv": [
+          "llama-quantize",
+          "<input:sha256:ccc976e561309621569d30e9274ecb64c2d63dd3c431bcafe3ac88e84dde7262>",
+          "<output:sha256:a013d7fa2c5dc019ac21e3b30041740aafe438a7231d31ab0fecf0e3341603c0>",
+          "Q8_0"
+        ],
+        "input_digest": "sha256:ccc976e561309621569d30e9274ecb64c2d63dd3c431bcafe3ac88e84dde7262",
+        "kind": "quantize",
+        "node_id": "quantize-q8_0",
+        "output_digest": "sha256:a013d7fa2c5dc019ac21e3b30041740aafe438a7231d31ab0fecf0e3341603c0",
+        "tool_digest": "sha256:ddc878d6c1aa614492674395b266f10562564e25d796cc939737813b27ba9e22"
+      },
+      {
+        "display_argv": [
+          "llama-cli",
+          "-m",
+          "<input:sha256:6d3e8cf71047764f9fcb2859d0216bbcd137947e779d568b01b441f254adbf42>",
+          "-p",
+          "<redacted:sha256:bbaff4d2ecd5892d4a442b0f53131641bf6e6f284761dd20fc0664bc97145762>",
+          "-n",
+          "8",
+          "--seed",
+          "0",
+          "--single-turn"
+        ],
+        "input_digest": "sha256:6d3e8cf71047764f9fcb2859d0216bbcd137947e779d568b01b441f254adbf42",
+        "kind": "smoke",
+        "node_id": "smoke-q4_0",
+        "output_digest": "sha256:abbfc056d71b30b1ce6882cdeda5e322a3f5358c55765d72470b135a95ed0b2f",
+        "tool_digest": "sha256:a6f6b3e7993f31440ff7c36cbf634c0c245a459d4f1807bcc913b4d03920cdd0"
+      },
+      {
+        "display_argv": [
+          "llama-cli",
+          "-m",
+          "<input:sha256:a013d7fa2c5dc019ac21e3b30041740aafe438a7231d31ab0fecf0e3341603c0>",
+          "-p",
+          "<redacted:sha256:bbaff4d2ecd5892d4a442b0f53131641bf6e6f284761dd20fc0664bc97145762>",
+          "-n",
+          "8",
+          "--seed",
+          "0",
+          "--single-turn"
+        ],
+        "input_digest": "sha256:a013d7fa2c5dc019ac21e3b30041740aafe438a7231d31ab0fecf0e3341603c0",
+        "kind": "smoke",
+        "node_id": "smoke-q8_0",
+        "output_digest": "sha256:9c7d95450ea50cda0d452af2cd70c60d4fcb2be8c3bad3b2475b068c13866764",
+        "tool_digest": "sha256:a6f6b3e7993f31440ff7c36cbf634c0c245a459d4f1807bcc913b4d03920cdd0"
+      }
+    ],
+    "path_policy": "Local paths replaced with digest-bound placeholders."
+  },
   "exclusions": [
     "Digest verification is not a model-quality evaluation.",
     "Runner exit 0 is not a compatibility guarantee for other hosts.",
-    "The public record excludes local paths, commands, prompts, logs, stdout, and stderr.",
+    "Displayed argv replaces local paths with digest-bound placeholders; prompt text, logs, stdout, and stderr are excluded.",
     "Package hashes bind this record to exact local release files; they do not prove publication.",
     "The publisher-generated CAS acceptance records no identity, authorization, or independent attestation."
   ],
@@ -122,14 +207,14 @@
     "python_source_digest": "sha256:1804241dd60b9b54e1d42093caefce87c4a23797f512b76a22f2ba32649dbfb4",
     "sdist": {
       "filename": "modelbake_ai-0.1.0.tar.gz",
-      "sha256": "sha256:b658c609c3ead5c70cb294e76342063d08169704e2ce50207b8b93518079cf55",
-      "size_bytes": 145953
+      "sha256": "sha256:799e1764b732a44ee1d1a95a812aa7826f79366cfc2b3472011036302e18cfd6",
+      "size_bytes": 148298
     },
     "version": "0.1.0",
     "wheel": {
       "filename": "modelbake_ai-0.1.0-py3-none-any.whl",
-      "sha256": "sha256:033d1047cdd4d2bc1510e6deb5990bc9e418aaaff9ea634f7131e8dbd745829c",
-      "size_bytes": 64553
+      "sha256": "sha256:707a1a501607dbc69202d7f782b2288d234121176a3e8439151ea1b05575d677",
+      "size_bytes": 64586
     }
   },
   "runner": {
@@ -154,7 +239,7 @@
     "tool_source_had_changes": false,
     "tool_source_worktree_digest": "sha256:995eed72c105e182ac2acd1f506d1653ee17965868da29960a9dc65d4ad917be"
   },
-  "schema": "modelbake.public-acceptance.v2",
+  "schema": "modelbake.public-acceptance.v3",
   "warm_run": {
     "digest_verification": {
       "checked": 6,

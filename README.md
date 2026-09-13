@@ -128,9 +128,10 @@ modelbake build path/to/modelbake.yaml
 modelbake verify .modelbake/runs/<run-id>/manifest.json --allow-artifact-root .modelbake/cache
 ```
 
-The revision is recorded as supplied. ModelBake also records executable/script bytes,
-the configured Python interpreter identity, the versions of the converter's direct
-dependencies, and observed Git checkout identity when available. It checks the
+The revision is recorded as supplied. When the converter is inside a Git checkout,
+ModelBake also requires it to match the observed `HEAD`. ModelBake records executable/script
+bytes, the configured Python interpreter identity, the versions of the converter's direct
+dependencies, and checkout status when available. It checks the
 adapter fingerprint again after every execution before committing outputs. Dependency
 versions are bounded metadata evidence; ModelBake does not hash or attest every
 installed package file.

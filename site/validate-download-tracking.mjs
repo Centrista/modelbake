@@ -79,7 +79,7 @@ assert.match(llms, /ModelBake is a free, Apache-2\.0 local CLI/);
 assert.match(llms, /modelbake tour/);
 
 const sums = readFileSync(join(siteRoot, "downloads", "SHA256SUMS"), "utf8");
-assert.match(sums, /^033d1047cdd4d2bc1510e6deb5990bc9e418aaaff9ea634f7131e8dbd745829c  modelbake_ai-0\.1\.0-py3-none-any\.whl$/m);
-assert.match(sums, /^b658c609c3ead5c70cb294e76342063d08169704e2ce50207b8b93518079cf55  modelbake_ai-0\.1\.0\.tar\.gz$/m);
+assert.match(sums, /^707a1a501607dbc69202d7f782b2288d234121176a3e8439151ea1b05575d677  modelbake_ai-0\.1\.0-py3-none-any\.whl$/m);
+assert.match(sums, /^799e1764b732a44ee1d1a95a812aa7826f79366cfc2b3472011036302e18cfd6  modelbake_ai-0\.1\.0\.tar\.gz$/m);
 
 console.log(`download tracking contract passed (${observed.length} CTAs)`);

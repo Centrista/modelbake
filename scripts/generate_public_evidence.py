@@ -47,11 +47,11 @@ _MAX_PYTHON_SOURCE_BYTES = 64 * 1024 * 1024
 _MAX_METADATA_BYTES = 1024 * 1024
 _MAX_MANIFEST_BYTES = 16 * 1024 * 1024
 _MAX_REVIEW_BYTES = 16 * 1024 * 1024
-_PUBLIC_SCHEMA = "modelbake.public-acceptance.v2"
+_PUBLIC_SCHEMA = "modelbake.public-acceptance.v3"
 _PUBLIC_EXCLUSIONS = (
     "Digest verification is not a model-quality evaluation.",
     "Runner exit 0 is not a compatibility guarantee for other hosts.",
-    "The public record excludes local paths, commands, prompts, logs, stdout, and stderr.",
+    "Displayed argv replaces local paths with digest-bound placeholders; prompt text, logs, stdout, and stderr are excluded.",
     "Package hashes bind this record to exact local release files; they do not prove publication.",
     "The publisher-generated CAS acceptance records no identity, authorization, or independent attestation.",
 )
@@ -1053,6 +1053,76 @@ def _public_nodes(
     ]
 
 
+def _public_commands(
+    manifest: dict[str, Any], tool_digests: dict[str, str]
+) -> dict[str, Any]:
+    """Expose the validated argv shape without publishing workstation paths."""
+
+    records: list[dict[str, Any]] = []
+    for node in manifest["nodes"]:
+        kind = node["kind"]
+        if kind == "source":
+            continue
+        input_digests = sorted(node["input_digests"].values())
+        output_digests = sorted(node["output_digests"].values())
+        if len(input_digests) != 1 or len(output_digests) != 1:
+            raise PublicEvidenceError(
+                f"{node['id']}: public argv requires one input and one output digest"
+            )
+        input_token = f"<input:{_require_digest(input_digests[0], 'command input digest')}>"
+        output_token = f"<output:{_require_digest(output_digests[0], 'command output digest')}>"
+        private_argv = node["command"]
+        if kind == "convert":
+            display_argv = [
+                "python",
+                "convert_hf_to_gguf.py",
+                input_token,
+                "--outfile",
+                output_token,
+                "--outtype",
+                "f16",
+            ]
+            tool_digest = tool_digests["convert"]
+        elif kind == "quantize":
+            display_argv = [
+                "llama-quantize",
+                input_token,
+                output_token,
+                private_argv[3],
+            ]
+            tool_digest = tool_digests["quantize"]
+        elif kind == "smoke":
+            display_argv = [
+                "llama-cli",
+                "-m",
+                input_token,
+                "-p",
+                private_argv[4],
+                "-n",
+                private_argv[6],
+                "--seed",
+                "0",
+                "--single-turn",
+            ]
+            tool_digest = tool_digests["runner"]
+        else:  # validated earlier; keep this function fail-closed in isolation
+            raise PublicEvidenceError(f"{node['id']}: unsupported public argv kind")
+        records.append(
+            {
+                "node_id": node["id"],
+                "kind": kind,
+                "display_argv": display_argv,
+                "input_digest": input_digests[0],
+                "output_digest": output_digests[0],
+                "tool_digest": tool_digest,
+            }
+        )
+    return {
+        "path_policy": "Local paths replaced with digest-bound placeholders.",
+        "nodes": records,
+    }
+
+
 def _assert_sanitized(value: Any, path: str = "$") -> None:
     forbidden_keys = {
         "command",
@@ -1399,6 +1469,114 @@ def _validate_public_run(
     return run, nodes
 
 
+def _validate_public_commands(
+    value: Any,
+    *,
+    cold_nodes: dict[str, dict[str, Any]],
+    tool_digests: dict[str, str],
+) -> None:
+    commands = _require_exact_keys(value, {"path_policy", "nodes"}, "commands")
+    if commands["path_policy"] != "Local paths replaced with digest-bound placeholders.":
+        raise PublicEvidenceError("public command path policy is invalid")
+    records = commands["nodes"]
+    if not isinstance(records, list) or len(records) != 5:
+        raise PublicEvidenceError("public commands must contain five executed nodes")
+    expected_ids = {
+        node_id for node_id, node in cold_nodes.items() if node["kind"] != "source"
+    }
+    expected_parent = {
+        "convert-f16-base": "source",
+        "quantize-q4_0": "convert-f16-base",
+        "quantize-q8_0": "convert-f16-base",
+        "smoke-q4_0": "quantize-q4_0",
+        "smoke-q8_0": "quantize-q8_0",
+    }
+    if expected_ids != set(expected_parent):
+        raise PublicEvidenceError("public command nodes do not match the release recipe")
+    seen: set[str] = set()
+    for index, raw in enumerate(records):
+        record = _require_exact_keys(
+            raw,
+            {
+                "node_id",
+                "kind",
+                "display_argv",
+                "input_digest",
+                "output_digest",
+                "tool_digest",
+            },
+            f"commands nodes[{index}]",
+        )
+        node_id = _require_public_text(record["node_id"], "command node ID")
+        if node_id in seen or node_id not in expected_ids:
+            raise PublicEvidenceError("public command node IDs are invalid")
+        seen.add(node_id)
+        node = cold_nodes[node_id]
+        if record["kind"] != node["kind"]:
+            raise PublicEvidenceError(f"{node_id}: public command kind is invalid")
+        input_digest = _require_digest(record["input_digest"], f"{node_id} input digest")
+        output_digest = _require_digest(record["output_digest"], f"{node_id} output digest")
+        parent_outputs = cold_nodes[expected_parent[node_id]]["output_digests"].values()
+        if input_digest not in parent_outputs:
+            raise PublicEvidenceError(
+                f"{node_id}: public command input does not match its recorded parent"
+            )
+        if output_digest not in node["output_digests"].values():
+            raise PublicEvidenceError(f"{node_id}: public command output is invalid")
+        argv = record["display_argv"]
+        if not isinstance(argv, list) or any(not isinstance(item, str) for item in argv):
+            raise PublicEvidenceError(f"{node_id}: displayed argv is invalid")
+        input_token = f"<input:{input_digest}>"
+        output_token = f"<output:{output_digest}>"
+        kind = node["kind"]
+        if kind == "convert":
+            expected = [
+                "python",
+                "convert_hf_to_gguf.py",
+                input_token,
+                "--outfile",
+                output_token,
+                "--outtype",
+                "f16",
+            ]
+            expected_tool = tool_digests["convert"]
+        elif kind == "quantize":
+            expected_quantization = {
+                "quantize-q4_0": "Q4_0",
+                "quantize-q8_0": "Q8_0",
+            }.get(node_id)
+            valid = (
+                expected_quantization is not None
+                and len(argv) == 4
+                and argv[:3] == ["llama-quantize", input_token, output_token]
+                and argv[3] == expected_quantization
+            )
+            if not valid:
+                raise PublicEvidenceError(f"{node_id}: displayed quantize argv is invalid")
+            expected = argv
+            expected_tool = tool_digests["quantize"]
+        elif kind == "smoke":
+            valid = (
+                len(argv) == 10
+                and argv[:4] == ["llama-cli", "-m", input_token, "-p"]
+                and _REDACTED_PROMPT_RE.fullmatch(argv[4]) is not None
+                and argv[5] == "-n"
+                and argv[6].isdigit()
+                and int(argv[6]) > 0
+                and argv[7:] == ["--seed", "0", "--single-turn"]
+            )
+            if not valid:
+                raise PublicEvidenceError(f"{node_id}: displayed smoke argv is invalid")
+            expected = argv
+            expected_tool = tool_digests["runner"]
+        else:
+            raise PublicEvidenceError(f"{node_id}: unsupported public command kind")
+        if argv != expected or record["tool_digest"] != expected_tool:
+            raise PublicEvidenceError(f"{node_id}: displayed argv binding is invalid")
+    if seen != expected_ids:
+        raise PublicEvidenceError("public command coverage is incomplete")
+
+
 def validate_public_evidence(
     payload: Any,
     *,
@@ -1415,6 +1593,7 @@ def validate_public_evidence(
             "acceptance",
             "lineage",
             "runner",
+            "commands",
             "cold_run",
             "warm_run",
             "exclusions",
@@ -1522,6 +1701,9 @@ def validate_public_evidence(
     )
     if cold["run_id"] == warm["run_id"]:
         raise PublicEvidenceError("cold and warm public run IDs must differ")
+    _validate_public_commands(
+        root["commands"], cold_nodes=cold_nodes, tool_digests=tool_digests
+    )
     if list(cold_nodes) != node_ids or list(warm_nodes) != node_ids:
         raise PublicEvidenceError("public run node IDs do not match lineage order")
     for node_id, cold_node in cold_nodes.items():
@@ -1711,6 +1893,7 @@ def generate_public_evidence(
             "tool_source_had_changes": cold_repository["tracked_or_untracked_changes"],
             "host": cold_host,
         },
+        "commands": _public_commands(cold, cold_tool_digests),
         "cold_run": {
             "run_id": cold["run_id"],
             "manifest": {

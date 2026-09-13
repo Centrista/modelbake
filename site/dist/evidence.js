@@ -51,12 +51,32 @@ function renderNodes(nodes) {
   container.replaceChildren(fragment);
 }
 
+function renderCommands(commandRecord) {
+  const container = document.querySelector("#evidence-command-list");
+  const fragment = document.createDocumentFragment();
+  commandRecord.nodes.forEach((record) => {
+    const row = document.createElement("article");
+    const header = document.createElement("div");
+    const label = document.createElement("strong");
+    label.textContent = record.node_id;
+    const digest = document.createElement("small");
+    digest.textContent = `tool ${short(record.tool_digest, 20)}`;
+    header.append(label, digest);
+    const command = document.createElement("code");
+    command.textContent = record.display_argv.join(" ");
+    row.append(header, command);
+    fragment.append(row);
+  });
+  container.replaceChildren(fragment);
+}
+
 async function loadPublisherRecord() {
   try {
     const response = await fetch("./real-evidence.json", { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const record = await response.json();
     const nodes = record.cold_run?.nodes;
+    const commands = record.commands;
     const acceptance = record.acceptance;
     const acceptanceDigests = acceptance && [
       acceptance.decision_digest,
@@ -66,9 +86,13 @@ async function loadPublisherRecord() {
       acceptance.comparison_digest,
     ];
     if (
-      record.schema !== "modelbake.public-acceptance.v2" ||
+      record.schema !== "modelbake.public-acceptance.v3" ||
       !Array.isArray(nodes) ||
       nodes.length !== 6 ||
+      commands?.path_policy !== "Local paths replaced with digest-bound placeholders." ||
+      !Array.isArray(commands?.nodes) ||
+      commands.nodes.length !== 5 ||
+      commands.nodes.some((item) => !Array.isArray(item.display_argv)) ||
       acceptance?.kind !== "publisher-generated-cas-acceptance" ||
       typeof acceptance.channel !== "string" ||
       !acceptanceDigests.every(isDigest) ||
@@ -78,7 +102,8 @@ async function loadPublisherRecord() {
     }
     text("#evidence-cold-run", short(record.cold_run.run_id));
     text("#evidence-warm-run", short(record.warm_run?.run_id));
-    text("#evidence-revision", short(record.runner?.observed_revision));
+    text("#evidence-revision", record.runner?.observed_revision);
+    text("#evidence-full-revision", record.runner?.observed_revision);
     text("#evidence-version", `modelbake-ai ${record.release?.version}`);
     text("#evidence-channel", acceptance.channel);
     text("#evidence-decision", acceptance.decision_digest);
@@ -93,6 +118,7 @@ async function loadPublisherRecord() {
     text("#evidence-subhead", "Six rechecked.");
     text("#evidence-summary", "This is the real build behind the downloadable ModelBake package. Six files were recorded and checked again. It proves the build ran; it does not certify model quality, safety, or production readiness.");
     renderNodes(nodes);
+    renderCommands(commands);
     document.querySelectorAll(".record-bound").forEach((element) => { element.hidden = false; });
     state.textContent = "Exact package-bound record loaded.";
     state.classList.add("loaded");
