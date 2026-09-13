@@ -1,13 +1,13 @@
 {
   "schema": "modelbake.site-evidence.v1",
   "source": "generated from verified local ModelBake fixture acceptance",
-  "run_id": "fa8ea279db32420886fd946c01a384a7",
+  "run_id": "d821c2c95d954e92be22555606bc93dd",
   "project": "fixture-demo",
   "recipe_digest": "sha256:9857628d09574db99ad2d6c9cd9eb224ed03e1971d12bb08de1c49a14a424743",
   "source_digest": "sha256:e04fa0ad8b54254f647be65cdcbdc7d54f467a17865c437aafe8292146381b6b",
   "runner": "modelbake.fixture/v0",
   "repeat_run": {
-    "run_id": "e477efcb0825401e867a2b2ed7037a29",
+    "run_id": "6f4cd8baf31645e4a08eba07959b3c13",
     "same_inputs": true,
     "digest_verified_cache_hits": 7
   },

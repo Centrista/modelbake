@@ -1,12 +1,12 @@
 {
   "acceptance": {
-    "candidate_manifest_digest": "sha256:1a43f47fe6e8356cc442b08d56c17838a81fa6c0641b5630e55d05dba294659c",
-    "channel": "release",
-    "comparison_digest": "sha256:124ac0e54776015606bbfdf4f428a46fd71970aef3a9c129276595858f7c26f2",
-    "decision_digest": "sha256:c3334490aeba0bae16a49b96bf6f9b69f0183554bab4c3482e9bdb8f104eff64",
+    "candidate_manifest_digest": "sha256:140a2509b29afdebe8558f11b11d139ea6ab39388d73b8f8bb72549cfe6535d7",
+    "channel": "production",
+    "comparison_digest": "sha256:f872dc24fc193386a90d10ac02d95e98696339fc39c64f10144b4ff74d4ef1f9",
+    "decision_digest": "sha256:5b227a7b474bdc482d92c336657cf05f5e41cdad50974746282cfc294dec0962",
     "kind": "publisher-generated-cas-acceptance",
-    "predecessor_decision_digest": "sha256:64e404a9865d8a209ea648f0aea44ce23bac9116c55bbe515d06f9611bf9274b",
-    "review_digest": "sha256:7f857a8b13da45bdacc934282b2f7deb9546bc0a5ed53f77a6dc0cf8d24ac2e2"
+    "predecessor_decision_digest": "sha256:255a90803e392e72d8553e159e4cdd0f09998a2f4a6ed2b32a570ebe90f7fde2",
+    "review_digest": "sha256:8c0269251a7965ebeb2a9e38208804e6b95125165d66d11f456a63b60994b069"
   },
   "cold_run": {
     "digest_verification": {
@@ -14,13 +14,13 @@
       "failures": 0
     },
     "manifest": {
-      "modelbake_digest": "sha256:351bddd93ef6f033ab0f486c75da0702cfb6b274504e420d0de697921f9019ad",
-      "sha256": "sha256:af561abecadf385236d7356bc7b25f55dc85a5b3c726c2b7770014e3f43cb635",
-      "size_bytes": 72339
+      "modelbake_digest": "sha256:239a1ced8f57b6d0b361a684bb1b6cbb481634b9f15be3d1be6bc6263b5259b3",
+      "sha256": "sha256:08ffb525cac3b8a797024803c7e337914f31de760d605f302502902e3f76d0cd",
+      "size_bytes": 72273
     },
     "nodes": [
       {
-        "cache_key": "sha256:867e71c9d7a2e6545ca93f7a1d000aa319b8ae1ac1e25ea8163add849aaa2d8f",
+        "cache_key": "sha256:4a339e225794eeb2ea3f7822126c81c95fb20b2fc17b5fa5c33259698406aa08",
         "id": "source",
         "kind": "source",
         "output_digests": {
@@ -32,7 +32,7 @@
         "state": "produced"
       },
       {
-        "cache_key": "sha256:95b7cba69f99228f4bec0c872cfcc13a153ba996815d9f8d2a51e328c1e7fc33",
+        "cache_key": "sha256:4e4ed5131736fe23f701c61df76f8b96100c437d98c77d19b9a429c649d21c2c",
         "id": "convert-f16-base",
         "kind": "convert",
         "output_digests": {
@@ -44,7 +44,7 @@
         "state": "produced"
       },
       {
-        "cache_key": "sha256:1ad8db5962944cdcc830cd3680ea3e60ccb5df0ab2b94a8070ed39105bf236bb",
+        "cache_key": "sha256:466152c9a540c02d9c651d55ab6598055e351fe81b95fd0747583573a76923e0",
         "id": "quantize-q4_0",
         "kind": "quantize",
         "output_digests": {
@@ -56,7 +56,7 @@
         "state": "produced"
       },
       {
-        "cache_key": "sha256:5774a53857c8459212948eedb710ee68c07bc70f218a7ec9eae4489774196b6a",
+        "cache_key": "sha256:0b881bc0dcb5860f99496571689d31362c484fa810577960fb705e5f8c26d7b8",
         "id": "quantize-q8_0",
         "kind": "quantize",
         "output_digests": {
@@ -68,31 +68,31 @@
         "state": "produced"
       },
       {
-        "cache_key": "sha256:eff7c3f8edfdbb9db3701a5930dba9d6c31f7567a202762d08b8304a98b3a13d",
+        "cache_key": "sha256:6e3f524d50f42d0b8202dd86dfa79f17c99eb298dc1f631e79ab60a41c040779",
         "id": "smoke-q4_0",
         "kind": "smoke",
         "output_digests": {
-          "observation": "sha256:1f70f886f9d50f7e768a2cae7909ed4f8398b9853402071f1c9055c2a5125123"
+          "observation": "sha256:abbfc056d71b30b1ce6882cdeda5e322a3f5358c55765d72470b135a95ed0b2f"
         },
         "output_sizes_bytes": {
-          "observation": 1123
+          "observation": 1117
         },
         "state": "executed_on_runner"
       },
       {
-        "cache_key": "sha256:f69dc2942e79d83038a4e76a7b030a33765273f9f9962f5293bb70b5beab476d",
+        "cache_key": "sha256:b2246ae9846deebd55f59ab154210bf3d5823760b35b5966a033f05a72c35a3c",
         "id": "smoke-q8_0",
         "kind": "smoke",
         "output_digests": {
-          "observation": "sha256:f4413a17bfbb7d5fa0c29a130997006a4c6edb46253f9e4ec2936622d9482059"
+          "observation": "sha256:9c7d95450ea50cda0d452af2cd70c60d4fcb2be8c3bad3b2475b068c13866764"
         },
         "output_sizes_bytes": {
-          "observation": 1104
+          "observation": 1100
         },
         "state": "executed_on_runner"
       }
     ],
-    "run_id": "af42e305f2cc44a694e90f3aa5c0c097",
+    "run_id": "c8687fa25f564f7d8ecbc664c9b02184",
     "states": {
       "executed_on_runner": 2,
       "produced": 4
@@ -114,7 +114,7 @@
       "smoke-q4_0",
       "smoke-q8_0"
     ],
-    "recipe_digest": "sha256:dc4d9ed337f08a5677b889e2455d7972f8fe46793e1e8b325667245fbe6849c3",
+    "recipe_digest": "sha256:b210bfed6148fd4416df0b748c2fd78cb61a81f934112f444e7be2af87d04295",
     "source_digest": "sha256:bf303c75852ccc59eca65d2f1e200d2c0709e0abd5ed3d68a1cce3d8bb9ecc29"
   },
   "release": {
@@ -122,14 +122,14 @@
     "python_source_digest": "sha256:1804241dd60b9b54e1d42093caefce87c4a23797f512b76a22f2ba32649dbfb4",
     "sdist": {
       "filename": "modelbake_ai-0.1.0.tar.gz",
-      "sha256": "sha256:f63c7fce794d79629776e7a0a7d2c12945a5dd30f76b97f27b60f2ce1ee4dfe2",
-      "size_bytes": 145792
+      "sha256": "sha256:b658c609c3ead5c70cb294e76342063d08169704e2ce50207b8b93518079cf55",
+      "size_bytes": 145953
     },
     "version": "0.1.0",
     "wheel": {
       "filename": "modelbake_ai-0.1.0-py3-none-any.whl",
-      "sha256": "sha256:acfc001f07001064054aaaff14637748074fe033b3fd5f2a337c027bdd10f320",
-      "size_bytes": 64477
+      "sha256": "sha256:033d1047cdd4d2bc1510e6deb5990bc9e418aaaff9ea634f7131e8dbd745829c",
+      "size_bytes": 64553
     }
   },
   "runner": {
@@ -161,13 +161,13 @@
       "failures": 0
     },
     "manifest": {
-      "modelbake_digest": "sha256:1a43f47fe6e8356cc442b08d56c17838a81fa6c0641b5630e55d05dba294659c",
-      "sha256": "sha256:ddbd65b4cee6e503e052aa8fa8f74437ca1fc61d71653315e48041fa19996348",
-      "size_bytes": 71787
+      "modelbake_digest": "sha256:140a2509b29afdebe8558f11b11d139ea6ab39388d73b8f8bb72549cfe6535d7",
+      "sha256": "sha256:e13ff99cba84d3a2c1a7eb06acc202786c16d3b32a5b39861a49614f1ea93c96",
+      "size_bytes": 71740
     },
     "nodes": [
       {
-        "cache_key": "sha256:867e71c9d7a2e6545ca93f7a1d000aa319b8ae1ac1e25ea8163add849aaa2d8f",
+        "cache_key": "sha256:4a339e225794eeb2ea3f7822126c81c95fb20b2fc17b5fa5c33259698406aa08",
         "id": "source",
         "kind": "source",
         "output_digests": {
@@ -179,7 +179,7 @@
         "state": "cache_hit"
       },
       {
-        "cache_key": "sha256:95b7cba69f99228f4bec0c872cfcc13a153ba996815d9f8d2a51e328c1e7fc33",
+        "cache_key": "sha256:4e4ed5131736fe23f701c61df76f8b96100c437d98c77d19b9a429c649d21c2c",
         "id": "convert-f16-base",
         "kind": "convert",
         "output_digests": {
@@ -191,7 +191,7 @@
         "state": "cache_hit"
       },
       {
-        "cache_key": "sha256:1ad8db5962944cdcc830cd3680ea3e60ccb5df0ab2b94a8070ed39105bf236bb",
+        "cache_key": "sha256:466152c9a540c02d9c651d55ab6598055e351fe81b95fd0747583573a76923e0",
         "id": "quantize-q4_0",
         "kind": "quantize",
         "output_digests": {
@@ -203,7 +203,7 @@
         "state": "cache_hit"
       },
       {
-        "cache_key": "sha256:5774a53857c8459212948eedb710ee68c07bc70f218a7ec9eae4489774196b6a",
+        "cache_key": "sha256:0b881bc0dcb5860f99496571689d31362c484fa810577960fb705e5f8c26d7b8",
         "id": "quantize-q8_0",
         "kind": "quantize",
         "output_digests": {
@@ -215,31 +215,31 @@
         "state": "cache_hit"
       },
       {
-        "cache_key": "sha256:eff7c3f8edfdbb9db3701a5930dba9d6c31f7567a202762d08b8304a98b3a13d",
+        "cache_key": "sha256:6e3f524d50f42d0b8202dd86dfa79f17c99eb298dc1f631e79ab60a41c040779",
         "id": "smoke-q4_0",
         "kind": "smoke",
         "output_digests": {
-          "observation": "sha256:1f70f886f9d50f7e768a2cae7909ed4f8398b9853402071f1c9055c2a5125123"
+          "observation": "sha256:abbfc056d71b30b1ce6882cdeda5e322a3f5358c55765d72470b135a95ed0b2f"
         },
         "output_sizes_bytes": {
-          "observation": 1123
+          "observation": 1117
         },
         "state": "cache_hit"
       },
       {
-        "cache_key": "sha256:f69dc2942e79d83038a4e76a7b030a33765273f9f9962f5293bb70b5beab476d",
+        "cache_key": "sha256:b2246ae9846deebd55f59ab154210bf3d5823760b35b5966a033f05a72c35a3c",
         "id": "smoke-q8_0",
         "kind": "smoke",
         "output_digests": {
-          "observation": "sha256:f4413a17bfbb7d5fa0c29a130997006a4c6edb46253f9e4ec2936622d9482059"
+          "observation": "sha256:9c7d95450ea50cda0d452af2cd70c60d4fcb2be8c3bad3b2475b068c13866764"
         },
         "output_sizes_bytes": {
-          "observation": 1104
+          "observation": 1100
         },
         "state": "cache_hit"
       }
     ],
-    "run_id": "2d92664547a94111bb7c26476cdf2fa7",
+    "run_id": "8750c0dc792b4eaf8ca738c54ec03ae7",
     "states": {
       "cache_hit": 6
     }
