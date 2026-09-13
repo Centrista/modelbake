@@ -39,6 +39,8 @@ assert.deepEqual(observed.sort(), expected);
 const tracker = readFileSync(join(siteRoot, "download-tracking.js"), "utf8");
 assert.match(tracker, /window\.va\("pageview"/);
 assert.match(tracker, /route: "\/download\/\[artifact\]\/\[version\]\/\[location\]"/);
+assert.match(tracker, /route: "\/intent\/install\/\[version\]\/\[location\]"/);
+assert.match(tracker, /"git-guide"/);
 assert.match(
   tracker,
   /productionHosts = new Set\(\["modelbake\.dev", "www\.modelbake\.dev", "modelbake\.vercel\.app"\]\)/
@@ -51,6 +53,9 @@ assert.match(index, /<script type="application\/ld\+json">/);
 assert.match(index, /"@type": "SoftwareApplication"/);
 assert.match(index, /"price": "0"/);
 assert.match(index, /href="https:\/\/modelbake\.dev\/llms\.txt"/);
+assert.match(index, /data-install-intent="hero" data-install-version="0\.1\.0"/);
+assert.match(index, /data-install-intent="open" data-install-version="0\.1\.0"/);
+assert.match(index, /python -m pip install https:\/\/modelbake\.dev\/downloads\/modelbake_ai-0\.1\.0-py3-none-any\.whl/);
 
 for (const name of ["robots.txt", "sitemap.xml", "llms.txt", "downloads/SHA256SUMS"]) {
   assert.equal(existsSync(join(siteRoot, name)), true, `${name} is missing`);

@@ -6,8 +6,10 @@
     "integration",
     "workflow",
     "open",
+    "git-guide",
     "evidence-header"
   ]);
+  const allowedIntentLocations = new Set(["hero", "open"]);
   const versionPattern = /^\d+\.\d+\.\d+$/;
 
   window.va = window.va || function (...parameters) {
@@ -32,6 +34,19 @@
       window.va("pageview", {
         route: "/download/[artifact]/[version]/[location]",
         path: `/download/${artifact}/${version}/${location}`
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-install-intent]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const location = button.dataset.installIntent;
+      const version = button.dataset.installVersion;
+      if (!allowedIntentLocations.has(location) || !versionPattern.test(version)) return;
+
+      window.va("pageview", {
+        route: "/intent/install/[version]/[location]",
+        path: `/intent/install/${version}/${location}`
       });
     });
   });

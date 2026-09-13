@@ -71,10 +71,10 @@
             <li>runs locally</li><li>never uploads your model</li><li>free and open source</li><li>macOS + Linux</li>
           </ul>
           <div class="hero-actions">
-            <a class="button button-dark" href="#demo">Try the 60-second demo <span aria-hidden="true">↓</span></a>
-            <a class="button button-quiet" href="./downloads/modelbake_ai-0.1.0-py3-none-any.whl" download data-download-artifact="wheel" data-download-location="hero" data-download-version="0.1.0">Download free CLI <span>↓</span></a>
+            <a class="button button-dark" href="./downloads/modelbake_ai-0.1.0-py3-none-any.whl" download data-download-artifact="wheel" data-download-location="hero" data-download-version="0.1.0">Download free CLI <span>↓</span></a>
+            <a class="button button-quiet" href="#demo">Try the 60-second demo <span aria-hidden="true">↓</span></a>
           </div>
-          <div class="hero-install"><span>THEN RUN</span><code><span>pip install ~/Downloads/modelbake_ai-0.1.0-py3-none-any.whl</span><span>modelbake tour</span></code><button type="button" data-copy="pip install ~/Downloads/modelbake_ai-0.1.0-py3-none-any.whl &amp;&amp; modelbake tour" aria-label="Copy install and tour command"><span class="copy-label">copy</span></button></div>
+          <div class="hero-install"><span>OR INSTALL</span><code><span>python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl</span><span>modelbake tour</span></code><button type="button" data-copy="python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl &amp;&amp; modelbake tour" data-install-intent="hero" data-install-version="0.1.0" aria-label="Copy install and tour command"><span class="copy-label">copy</span></button></div>
           <p class="hero-qualifier">FREE FOREVER · APACHE-2.0 · NO ACCOUNT</p>
         </div>
 
@@ -251,9 +251,9 @@ declared runner: same              observed runner: same
           <div class="quickstart" role="region" aria-labelledby="quickstart-title">
             <div class="quickstart-bar">
               <strong id="quickstart-title">Exact quickstart</strong>
-              <button type="button" data-copy="python -m pip install ./modelbake_ai-0.1.0-py3-none-any.whl&#10;modelbake tour" aria-label="Copy all quickstart commands"><span class="copy-label">copy all</span></button>
+              <button type="button" data-copy="python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl&#10;modelbake tour" data-install-intent="open" data-install-version="0.1.0" aria-label="Copy all quickstart commands"><span class="copy-label">copy all</span></button>
             </div>
-            <pre><code><span>01</span> python -m pip install ./modelbake_ai-0.1.0-py3-none-any.whl
+            <pre><code><span>01</span> python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl
 <span>02</span> modelbake tour
 
      baseline → candidate → exact release diff</code></pre>
