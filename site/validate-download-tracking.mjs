@@ -4,12 +4,13 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const siteRoot = join(dirname(fileURLToPath(import.meta.url)), "dist");
-const documents = ["index.html", "real-evidence.html"];
+const documents = ["index.html", "real-evidence.html", "git-vs-modelbake.html"];
 const expected = [
   "evidence-json|evidence-header|0.1.0",
   "source|integration|0.1.0",
   "source|open|0.1.0",
   "source|workflow|0.1.0",
+  "wheel|git-guide|0.1.0",
   "wheel|hero|0.1.0",
   "wheel|open|0.1.0"
 ];
@@ -61,6 +62,12 @@ assert.match(robots, /Sitemap: https:\/\/modelbake\.dev\/sitemap\.xml/);
 const sitemap = readFileSync(join(siteRoot, "sitemap.xml"), "utf8");
 assert.match(sitemap, /<loc>https:\/\/modelbake\.dev\/<\/loc>/);
 assert.match(sitemap, /<loc>https:\/\/modelbake\.dev\/real-evidence\.html<\/loc>/);
+assert.match(sitemap, /<loc>https:\/\/modelbake\.dev\/git-vs-modelbake\.html<\/loc>/);
+
+const gitGuide = readFileSync(join(siteRoot, "git-vs-modelbake.html"), "utf8");
+assert.match(gitGuide, /Git tracks the code/);
+assert.match(gitGuide, /ModelBake produces a readable manifest/);
+assert.match(gitGuide, /It records evidence\. It does not certify model quality/);
 
 const llms = readFileSync(join(siteRoot, "llms.txt"), "utf8");
 assert.match(llms, /ModelBake is a free, Apache-2\.0 local CLI/);

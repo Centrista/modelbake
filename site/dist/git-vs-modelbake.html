@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Git tracks your repository. ModelBake records the model, converter, command, environment, GGUF outputs, and accepted build that exist outside a commit." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#f0ede5" />
+    <meta property="og:title" content="Git vs ModelBake" />
+    <meta property="og:description" content="A practical guide to what Git records and what can still change in a GGUF build." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://modelbake.dev/git-vs-modelbake.html" />
+    <link rel="canonical" href="https://modelbake.dev/git-vs-modelbake.html" />
+    <title>Git vs ModelBake</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23111111'/%3E%3Cpath d='M7 23V9h4l5 7 5-7h4v14h-4v-7l-5 6-5-6v7z' fill='%23ff5c35'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Git vs ModelBake",
+        "description": "A practical guide to what Git records and what can still change in a GGUF build.",
+        "url": "https://modelbake.dev/git-vs-modelbake.html",
+        "about": "Reproducible GGUF builds"
+      }
+    </script>
+  </head>
+  <body class="guide-body">
+    <a class="skip-link" href="#guide">Skip to guide</a>
+    <header class="site-header guide-nav">
+      <a class="wordmark" href="./index.html"><span class="wordmark-icon" aria-hidden="true">M</span><span>ModelBake</span></a>
+      <span>GIT VS MODELBAKE</span>
+      <a class="nav-cta" href="./index.html#demo">Try the demo <span aria-hidden="true">→</span></a>
+    </header>
+
+    <main class="guide-page" id="guide">
+      <section class="guide-hero">
+        <div>
+          <p class="overline">The short answer</p>
+          <h1>Git tracks the code.<br /><em>What tracks the build?</em></h1>
+        </div>
+        <div class="guide-answer">
+          <p>Git is essential. Keep it.</p>
+          <p>A GGUF build also depends on files and runtime details that may never enter the repository. ModelBake records those details and compares them with the build you accepted.</p>
+        </div>
+      </section>
+
+      <section class="guide-example" aria-labelledby="example-title">
+        <div>
+          <p class="overline"><span>01</span> One common failure</p>
+          <h2 id="example-title">Same commit.<br />Different GGUF.</h2>
+        </div>
+        <div class="guide-sequence" role="img" aria-label="The Git commit stays the same while downloaded model and converter bytes change, producing a different GGUF file">
+          <article><small>REPOSITORY</small><strong>same commit</strong><code>7c91a20</code></article>
+          <span aria-hidden="true">+</span>
+          <article><small>DOWNLOADED INPUT</small><strong>new bytes</strong><code>sha256 changed</code></article>
+          <span aria-hidden="true">+</span>
+          <article><small>CONVERTER</small><strong>new bytes</strong><code>sha256 changed</code></article>
+          <span aria-hidden="true">=</span>
+          <article class="guide-sequence-result"><small>GGUF OUTPUT</small><strong>new build</strong><code>review again</code></article>
+        </div>
+      </section>
+
+      <section class="guide-table-section" aria-labelledby="coverage-title">
+        <header>
+          <p class="overline"><span>02</span> What each one records</p>
+          <h2 id="coverage-title">Two jobs.<br />Use both.</h2>
+        </header>
+        <div class="guide-table" role="table" aria-label="Comparison of Git and ModelBake build records">
+          <div class="guide-table-row guide-table-head" role="row"><span role="columnheader">BUILD DETAIL</span><span role="columnheader">GIT</span><span role="columnheader">MODELBAKE</span></div>
+          <div class="guide-table-row" role="row"><strong role="cell">Repository commit</strong><span role="cell" class="yes">Recorded</span><span role="cell">Referenced</span></div>
+          <div class="guide-table-row" role="row"><strong role="cell">Checkpoint bytes</strong><span role="cell">Only if committed</span><span role="cell" class="yes">Hashed</span></div>
+          <div class="guide-table-row" role="row"><strong role="cell">Converter bytes and revision</strong><span role="cell">Only if committed</span><span role="cell" class="yes">Recorded</span></div>
+          <div class="guide-table-row" role="row"><strong role="cell">Exact build command</strong><span role="cell">Not the executed command</span><span role="cell" class="yes">Recorded</span></div>
+          <div class="guide-table-row" role="row"><strong role="cell">Python environment</strong><span role="cell">Not the installed state</span><span role="cell" class="yes">Recorded</span></div>
+          <div class="guide-table-row" role="row"><strong role="cell">GGUF output bytes</strong><span role="cell">Only if committed</span><span role="cell" class="yes">Hashed</span></div>
+          <div class="guide-table-row" role="row"><strong role="cell">Accepted predecessor</strong><span role="cell">Manual convention</span><span role="cell" class="yes">Bound to the record</span></div>
+          <div class="guide-table-row" role="row"><strong role="cell">Build-to-build diff</strong><span role="cell">Repository files</span><span role="cell" class="yes">Build inputs and outputs</span></div>
+        </div>
+      </section>
+
+      <section class="guide-fit" aria-labelledby="fit-title">
+        <div>
+          <p class="overline"><span>03</span> Where it fits</p>
+          <h2 id="fit-title">Put the record<br />back in Git.</h2>
+        </div>
+        <div>
+          <p>ModelBake produces a readable manifest. Keep that manifest beside your code, attach it to a release, or check it in CI.</p>
+          <pre><code><span>$</span> modelbake compare approved/manifest.json candidate/manifest.json
+
+recipe: changed
+source digest: same
+converter digest: changed
+q4 output digest: changed
+
+No promotion decision inferred.</code></pre>
+          <p class="guide-limit"><strong>Current scope:</strong> local Llama safetensors to GGUF builds with llama.cpp on macOS and Linux. It records evidence. It does not certify model quality, safety, licensing, or production readiness.</p>
+        </div>
+      </section>
+
+      <section class="guide-start" aria-labelledby="start-title">
+        <div><p class="overline"><span>04</span> See the whole loop</p><h2 id="start-title">Try it without<br />a model.</h2></div>
+        <div><p>The tour creates two tiny sample builds and shows the exact diff. Nothing is uploaded.</p><div class="quickstart"><div class="quickstart-bar"><strong>60-second tour</strong></div><pre><code><span>01</span> Download the wheel
+<span>02</span> python -m pip install ./modelbake_ai-0.1.0-py3-none-any.whl
+<span>03</span> modelbake tour</code></pre></div><div class="guide-actions"><a class="button button-dark" href="./downloads/modelbake_ai-0.1.0-py3-none-any.whl" download data-download-artifact="wheel" data-download-location="git-guide" data-download-version="0.1.0">Download free CLI <span>↓</span></a><a href="./real-evidence.html">Inspect a real build record <span>→</span></a></div></div>
+      </section>
+    </main>
+
+    <footer><a class="wordmark" href="./index.html"><span class="wordmark-icon">M</span><span>ModelBake</span></a><p>Git for the repository. ModelBake for the build.</p><span>FREE FOREVER CLI · APACHE-2.0</span></footer>
+    <script src="./download-tracking.js"></script>
+  </body>
+</html>
