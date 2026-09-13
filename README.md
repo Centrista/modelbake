@@ -66,6 +66,14 @@ python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-non
 modelbake tour
 ```
 
+On interactive runs, ModelBake checks `https://modelbake.dev/latest.json` at
+most once every 24 hours and prints a one-line command only when a newer stable
+version exists. The request contains no build data, paths, or model information;
+like any HTTPS request, the server can observe normal network metadata such as
+the IP address and user agent. ModelBake never installs an update automatically.
+Set `MODELBAKE_NO_UPDATE_CHECK=1` to disable the check completely. CI and
+non-interactive runs never make the request.
+
 That one credential-free command builds a Q4 fixture baseline, builds a Q4+Q8
 candidate with the same content cache, and prints the exact release diff. The
 fixture proves the workflow, not GGUF or model-runtime compatibility.

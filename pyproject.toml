@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "modelbake-ai"
-version = "0.1.0"
+version = "0.1.1"
 description = "Local build records and diffs for Llama-to-GGUF releases."
 readme = "README.md"
 requires-python = ">=3.11"

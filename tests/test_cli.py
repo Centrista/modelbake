@@ -25,7 +25,7 @@ def test_version_is_available_without_a_subcommand(capsys) -> None:
     with pytest.raises(SystemExit) as exit_info:
         main(["--version"])
     assert exit_info.value.code == 0
-    assert capsys.readouterr().out == "modelbake 0.1.0\n"
+    assert capsys.readouterr().out == "modelbake 0.1.1\n"
 
 
 def test_plan_json_exposes_only_validated_graph(capsys) -> None:

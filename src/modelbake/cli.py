@@ -16,6 +16,7 @@ from .compare import compare_manifests, render_comparison
 from .config import ConfigError, build_plan, load_config
 from .html_report import write_html_report
 from .manifest import ManifestError, load_manifest, render_report, verify_manifest
+from .update_check import maybe_print_update_notice
 
 EXIT_OK = 0
 EXIT_USAGE = 2
@@ -588,6 +589,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             previous_sigterm = None
     try:
         args = parser.parse_args(argv)
+        if not getattr(args, "as_json", False):
+            maybe_print_update_notice(__version__)
         if args.command == "plan":
             return _print_plan(args.recipe, args.as_json, args.allowed_source_roots)
         if args.command == "build":

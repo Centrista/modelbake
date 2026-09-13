@@ -57,9 +57,12 @@ assert.match(index, /data-install-intent="hero" data-install-version="0\.1\.0"/)
 assert.match(index, /data-install-intent="open" data-install-version="0\.1\.0"/);
 assert.match(index, /python -m pip install https:\/\/modelbake\.dev\/downloads\/modelbake_ai-0\.1\.0-py3-none-any\.whl/);
 
-for (const name of ["robots.txt", "sitemap.xml", "llms.txt", "downloads/SHA256SUMS"]) {
+for (const name of ["robots.txt", "sitemap.xml", "llms.txt", "latest.json", "downloads/SHA256SUMS"]) {
   assert.equal(existsSync(join(siteRoot, name)), true, `${name} is missing`);
 }
+
+const latest = JSON.parse(readFileSync(join(siteRoot, "latest.json"), "utf8"));
+assert.deepEqual(latest, { schema: "modelbake.update.v1", version: "0.1.0" });
 
 const robots = readFileSync(join(siteRoot, "robots.txt"), "utf8");
 assert.match(robots, /Sitemap: https:\/\/modelbake\.dev\/sitemap\.xml/);

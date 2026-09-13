@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 — Unreleased
+
+- Notify interactive users when a newer stable ModelBake release is available.
+- Cache update checks for 24 hours, skip CI and non-interactive runs, and allow
+  the check to be disabled with `MODELBAKE_NO_UPDATE_CHECK=1`.
+
 ## 0.1.0 — 2026-09-13
 
 First public alpha.
