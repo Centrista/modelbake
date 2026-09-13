@@ -71,11 +71,11 @@
             <li>runs locally</li><li>never uploads your model</li><li>free and open source</li><li>macOS + Linux</li>
           </ul>
           <div class="hero-actions">
-            <a class="button button-dark" href="./downloads/modelbake_ai-0.1.0-py3-none-any.whl" download data-download-artifact="wheel" data-download-location="hero" data-download-version="0.1.0">Download free CLI <span>↓</span></a>
-            <a class="button button-quiet" href="#demo">Try the 60-second demo <span aria-hidden="true">↓</span></a>
+            <button class="button button-dark" type="button" data-copy="python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl &amp;&amp; modelbake tour" data-copy-success="Copied. Paste it into your terminal." data-install-intent="hero" data-install-version="0.1.0">Copy install command <span aria-hidden="true">→</span></button>
+            <a class="button button-quiet" href="#demo">See a sample in 60 seconds <span aria-hidden="true">↓</span></a>
           </div>
-          <div class="hero-install"><span>OR INSTALL</span><code><span>python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl</span><span>modelbake tour</span></code><button type="button" data-copy="python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl &amp;&amp; modelbake tour" data-install-intent="hero" data-install-version="0.1.0" aria-label="Copy install and tour command"><span class="copy-label">copy</span></button></div>
-          <p class="hero-qualifier">FREE FOREVER · APACHE-2.0 · NO ACCOUNT</p>
+          <div class="hero-install"><span>TERMINAL</span><code><span>python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl</span><span>modelbake tour</span></code><button type="button" data-copy="python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl &amp;&amp; modelbake tour" data-copy-success="Copied. Paste it into your terminal." data-install-intent="hero" data-install-version="0.1.0" aria-label="Copy install and tour command"><span class="copy-label">copy</span></button></div>
+          <p class="hero-qualifier">FREE FOREVER · APACHE-2.0 · NO ACCOUNT · <a href="./downloads/modelbake_ai-0.1.0-py3-none-any.whl" download data-download-artifact="wheel" data-download-location="hero" data-download-version="0.1.0">DOWNLOAD 64 KB WHEEL</a></p>
         </div>
 
         <a class="hero-object reveal" href="./real-evidence.html" aria-label="Inspect the release record">
@@ -139,12 +139,12 @@
 
       <section class="demo-section" id="demo" aria-labelledby="demo-title">
         <header class="demo-header reveal">
-          <div><p class="overline overline-light">No model required</p><h2 id="demo-title">Try a sample build.</h2></div>
+          <div><p class="overline overline-light">No model required</p><h2 id="demo-title">See the workflow.</h2></div>
           <div class="demo-intro"><p>Replay a tiny example and open any step. Nothing is uploaded and no real model is needed.</p><button class="button button-hot" id="run-build" type="button" disabled><span class="run-label">Loading example</span><span aria-hidden="true">→</span></button></div>
         </header>
 
         <div class="build-surface reveal" data-state="ready" data-stage="0">
-          <div class="build-topline"><div><span class="surface-mark">M</span><strong>sample GGUF build</strong></div><div class="build-state"><i></i><span id="build-status">loading example</span></div></div>
+          <div class="build-topline"><div><span class="surface-mark">M</span><strong>fixture workflow preview</strong></div><div class="build-state"><i></i><span id="build-status">loading example</span></div></div>
           <div class="scope-row">
             <div><small>SOURCE</small><code id="demo-source">loading…</code></div><div><small>TOOLCHAIN</small><code>fixture/v0</code></div><div><small>RUNNER</small><code>modelbake.fixture/v0</code></div><div><small>SCOPE</small><code>this fixture runner</code></div>
           </div>

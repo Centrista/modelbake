@@ -41,7 +41,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--acid); outline-
 .hero-scope { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
 .hero-scope li { padding: .38rem .55rem; border: 1px solid var(--line); background: rgba(255,255,255,.34); font-family: var(--mono); font-size: .6rem; color: #4f4b44; }
 .hero-actions { display: flex; align-items: stretch; gap: .8rem; margin-top: 2rem; }
-.button { min-height: 3.35rem; display: inline-flex; justify-content: space-between; align-items: center; gap: 2.5rem; padding: .85rem 1.1rem; border: 1px solid; text-decoration: none; font-size: .77rem; font-weight: 800; cursor: pointer; transition: color .2s, background .2s; }
+.button { min-height: 3.35rem; display: inline-flex; justify-content: space-between; align-items: center; gap: 2.5rem; padding: .85rem 1.1rem; border: 1px solid; font-family: inherit; text-decoration: none; font-size: .77rem; font-weight: 800; cursor: pointer; transition: color .2s, background .2s; }
 .button-dark { color: var(--white); background: var(--ink); border-color: var(--ink); }
 .button-dark:hover { color: var(--ink); background: var(--hot); }
 .button-quiet { color: var(--ink); background: transparent; border-color: var(--ink); }
@@ -51,6 +51,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--acid); outline-
 .command-copy code { font-size: .74rem; }.copy-label { color: var(--muted); font-family: var(--mono); font-size: .61rem; text-transform: uppercase; }
 .command-copy:hover .copy-label { color: var(--hot-dark); }
 .hero-qualifier { margin: 1.1rem 0 0; color: var(--muted); font-family: var(--mono); font-size: .68rem; line-height: 1.5; letter-spacing: .07em; }
+.hero-qualifier a { color: var(--ink); text-underline-offset: .18em; }
+.hero-qualifier a:hover { color: var(--hot-dark); }
 .hero-install { width: min(100%, 45rem); display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: stretch; margin-top: .7rem; border: 1px solid var(--line); background: rgba(255,255,255,.28); }
 .hero-install > span { display: grid; place-items: center; padding: .65rem .75rem; border-right: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: .52rem; letter-spacing: .08em; }
 .hero-install code { min-width: 0; align-self: center; padding: .55rem .75rem; color: #4c4943; font-size: .66rem; line-height: 1.45; }

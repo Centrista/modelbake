@@ -99,7 +99,7 @@ let toastTimer;
 document.querySelectorAll("[data-copy]").forEach((button) => {
   button.addEventListener("click", async () => {
     const value = button.dataset.copy;
-    try { await navigator.clipboard.writeText(value); toast.textContent = "Copied to clipboard"; }
+    try { await navigator.clipboard.writeText(value); toast.textContent = button.dataset.copySuccess || "Copied to clipboard"; }
     catch { toast.textContent = value; }
     toast.classList.add("show"); window.clearTimeout(toastTimer);
     toastTimer = window.setTimeout(() => toast.classList.remove("show"), 1800);
