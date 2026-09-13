@@ -48,7 +48,8 @@ def test_notice_is_short_and_does_not_install_anything(tmp_path: Path) -> None:
     )
     assert stream.getvalue() == (
         "ModelBake 0.1.1 is available. Update with: python -m pip install --upgrade "
-        "https://modelbake.dev/downloads/modelbake_ai-0.1.1-py3-none-any.whl\n"
+        "https://github.com/Centrista/modelbake/releases/download/v0.1.1/"
+        "modelbake_ai-0.1.1-py3-none-any.whl\n"
     )
 
 

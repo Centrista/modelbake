@@ -181,7 +181,10 @@ def maybe_print_update_notice(
         return
     if latest is None:
         return
-    wheel = f"https://modelbake.dev/downloads/modelbake_ai-{latest}-py3-none-any.whl"
+    wheel = (
+        "https://github.com/Centrista/modelbake/releases/download/"
+        f"v{latest}/modelbake_ai-{latest}-py3-none-any.whl"
+    )
     print(
         f"ModelBake {latest} is available. Update with: "
         f"python -m pip install --upgrade {wheel}",

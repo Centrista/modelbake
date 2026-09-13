@@ -67,8 +67,8 @@ modelbake tour
 ```
 
 On interactive runs, ModelBake checks `https://modelbake.dev/latest.json` at
-most once every 24 hours and prints a one-line command only when a newer stable
-version exists. The request contains no build data, paths, or model information;
+most once every 24 hours and prints a versioned GitHub release command only when
+a newer stable version exists. The request contains no build data, paths, or model information;
 like any HTTPS request, the server can observe normal network metadata such as
 the IP address and user agent. ModelBake never installs an update automatically.
 Set `MODELBAKE_NO_UPDATE_CHECK=1` to disable the check completely. CI and
