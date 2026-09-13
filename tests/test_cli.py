@@ -122,6 +122,44 @@ def test_tour_runs_both_releases_and_prints_the_diff(
     assert (root / "candidate/manifest.json").is_file()
 
 
+def test_tour_reuses_completed_children_when_run_root_is_repeated(
+    tmp_path: Path, monkeypatch, capsys
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    root = tmp_path / ".modelbake/tour"
+    assert main(["tour", "--run-root", str(root)]) == EXIT_OK
+    capsys.readouterr()
+
+    assert main(["tour", "--run-root", str(root)]) == EXIT_OK
+    output = capsys.readouterr().out
+    assert "Reusing completed baseline run" in output
+    assert "Reusing completed candidate run" in output
+    assert "RELEASE DIFF" in output
+
+
+def test_tour_resumes_interrupted_candidate_after_completed_baseline(
+    tmp_path: Path, monkeypatch, capsys
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    root = tmp_path / ".modelbake/tour"
+    assert main(["tour", "--run-root", str(root)]) == EXIT_OK
+    capsys.readouterr()
+
+    candidate_manifest = root / "candidate/manifest.json"
+    candidate = json.loads(candidate_manifest.read_text(encoding="utf-8"))
+    candidate["status"] = "interrupted"
+    candidate_manifest.write_text(
+        json.dumps(candidate, sort_keys=True, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+
+    assert main(["tour", "--run-root", str(root)]) == EXIT_OK
+    output = capsys.readouterr().out
+    assert "Reusing completed baseline run" in output
+    assert "Resuming interrupted candidate run" in output
+    assert json.loads(candidate_manifest.read_text())["status"] == "succeeded"
+
+
 def test_baseline_cli_accepts_verifies_loads_and_compares(
     tmp_path: Path, monkeypatch, capsys
 ) -> None:

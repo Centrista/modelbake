@@ -554,18 +554,10 @@ def _tour(run_root: Path | None, cache_dir: Path, markdown: bool) -> int:
     baseline_dir = root / "accepted"
     candidate_dir = root / "candidate"
     print("ModelBake tour: same source, one added release target\n")
-    first = _build(
-        _prepare_builtin_demo_recipe("baseline"),
-        baseline_dir,
-        cache_dir,
-    )
+    first = _tour_build("baseline", baseline_dir, cache_dir)
     if first != EXIT_OK:
         return first
-    second = _build(
-        _prepare_builtin_demo_recipe("candidate"),
-        candidate_dir,
-        cache_dir,
-    )
+    second = _tour_build("candidate", candidate_dir, cache_dir)
     if second != EXIT_OK:
         return second
     comparison = compare_manifests(
@@ -576,6 +568,43 @@ def _tour(run_root: Path | None, cache_dir: Path, markdown: bool) -> int:
     print(f"\nTour files: {root.resolve()}")
     print("Fixture only: no GGUF or model-runtime compatibility is claimed.")
     return EXIT_OK
+
+
+def _tour_build(story: str, run_dir: Path, cache_dir: Path) -> int:
+    """Reuse a completed fixture child or resume its interrupted execution."""
+
+    recipe = _prepare_builtin_demo_recipe(story)
+    manifest_path = run_dir / "manifest.json"
+    if not manifest_path.exists():
+        return _build(recipe, run_dir, cache_dir)
+
+    prior = load_manifest(manifest_path)
+    plan = build_plan(load_config(recipe))
+    expected_run_dir = str(run_dir.resolve())
+    if (
+        prior.get("recipe_digest") != plan.recipe_digest
+        or prior.get("run_dir") != expected_run_dir
+    ):
+        raise ManifestError(
+            f"tour run does not match the built-in {story} recipe and directory"
+        )
+    if prior["status"] == "succeeded":
+        verification = verify_manifest(
+            manifest_path,
+            allowed_roots=(cache_dir,),
+        )
+        if not verification.ok:
+            raise ManifestError(
+                f"completed tour {story} no longer matches its recorded artifacts"
+            )
+        print(f"Reusing completed {story} run: {manifest_path}")
+        return EXIT_OK
+    if prior["status"] == "interrupted":
+        print(f"Resuming interrupted {story} run: {manifest_path}")
+        return _build(recipe, run_dir, cache_dir, resume=True)
+    raise ManifestError(
+        f"tour {story} run is {prior['status']}; choose a new --run-root"
+    )
 
 
 def main(argv: Sequence[str] | None = None) -> int:
