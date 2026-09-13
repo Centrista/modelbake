@@ -122,14 +122,14 @@
     "python_source_digest": "sha256:1804241dd60b9b54e1d42093caefce87c4a23797f512b76a22f2ba32649dbfb4",
     "sdist": {
       "filename": "modelbake_ai-0.1.0.tar.gz",
-      "sha256": "sha256:22e80c9afc235fe5b93904315da22ad63181d042d5076ef63df9dabcb2176cc3",
-      "size_bytes": 143902
+      "sha256": "sha256:f63c7fce794d79629776e7a0a7d2c12945a5dd30f76b97f27b60f2ce1ee4dfe2",
+      "size_bytes": 145792
     },
     "version": "0.1.0",
     "wheel": {
       "filename": "modelbake_ai-0.1.0-py3-none-any.whl",
-      "sha256": "sha256:33f9b250c53b36a4e2c005ea4c86689d11c29500174aadfbe11d1adb76bc3df6",
-      "size_bytes": 64246
+      "sha256": "sha256:acfc001f07001064054aaaff14637748074fe033b3fd5f2a337c027bdd10f320",
+      "size_bytes": 64477
     }
   },
   "runner": {

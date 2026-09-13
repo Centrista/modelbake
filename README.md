@@ -216,6 +216,7 @@ Recipes cannot add shell commands, arguments, remote code, or arbitrary graph no
 - [Evidence model](docs/EVIDENCE_MODEL.md)
 - [Adapters](docs/ADAPTERS.md)
 - [CI release integration](docs/CI_INTEGRATION.md)
+- [PyPI trusted publishing](docs/PYPI_RELEASE.md)
 - [Accepted baseline API](docs/BASELINES.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Go-to-market](docs/GO_TO_MARKET.md)

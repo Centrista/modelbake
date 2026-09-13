@@ -1014,7 +1014,7 @@ def sha256_file(path: Path) -> str:
 
 
 def sync_site_downloads(archives: Iterable[Path], site_dist: Path) -> list[Path]:
-    """Atomically copy the inspected distributions into the dedicated site directory."""
+    """Atomically copy distributions and refresh their public checksum manifest."""
 
     source_paths = sorted({Path(path) for path in archives})
     for source in source_paths:
@@ -1038,7 +1038,11 @@ def sync_site_downloads(archives: Iterable[Path], site_dist: Path) -> list[Path]
     for child in downloads.iterdir():
         if child.is_symlink() or not child.is_file():
             raise ReleaseCheckError(f"unexpected site downloads entry: {child}")
-        if child.suffix != ".whl" and not child.name.endswith(".tar.gz"):
+        if (
+            child.suffix != ".whl"
+            and not child.name.endswith(".tar.gz")
+            and child.name != "SHA256SUMS"
+        ):
             raise ReleaseCheckError(f"unexpected non-package site download: {child}")
         existing[child.name] = child
 
@@ -1063,7 +1067,23 @@ def sync_site_downloads(archives: Iterable[Path], site_dist: Path) -> list[Path]
             temporary_files.remove(temporary)
             destinations.append(destination)
 
-        current_names = {source.name for source in sources}
+        checksum_lines = [
+            f"{sha256_file(path)}  {path.name}" for path in sorted(destinations)
+        ]
+        descriptor, temporary_name = tempfile.mkstemp(
+            prefix=".SHA256SUMS.", suffix=".sync", dir=downloads
+        )
+        temporary = Path(temporary_name)
+        temporary_files.append(temporary)
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:
+            stream.write("\n".join(checksum_lines) + "\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        checksum_destination = downloads / "SHA256SUMS"
+        os.replace(temporary, checksum_destination)
+        temporary_files.remove(temporary)
+
+        current_names = {source.name for source in sources} | {"SHA256SUMS"}
         for stale_name, stale_path in existing.items():
             if stale_name not in current_names:
                 stale_path.unlink()

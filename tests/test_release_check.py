@@ -685,9 +685,17 @@ def test_sync_site_downloads_replaces_stale_packages_with_exact_bytes(
     synced = release_check.sync_site_downloads([wheel, sdist], site_dist)
 
     assert {path.name for path in synced} == {wheel.name, sdist.name}
-    assert {path.name for path in downloads.iterdir()} == {wheel.name, sdist.name}
+    assert {path.name for path in downloads.iterdir()} == {
+        wheel.name,
+        sdist.name,
+        "SHA256SUMS",
+    }
     assert (downloads / wheel.name).read_bytes() == wheel.read_bytes()
     assert (downloads / sdist.name).read_bytes() == sdist.read_bytes()
+    assert (downloads / "SHA256SUMS").read_text(encoding="utf-8") == (
+        f"{release_check.sha256_file(wheel)}  {wheel.name}\n"
+        f"{release_check.sha256_file(sdist)}  {sdist.name}\n"
+    )
 
 
 def test_sync_site_downloads_refuses_unexpected_content(tmp_path: Path) -> None:
