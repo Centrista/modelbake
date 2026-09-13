@@ -58,15 +58,20 @@ ModelBake makes the release process one inspectable object:
 
 Requirements: Python 3.11 or newer.
 
-See the complete recurring-release loop first:
+Install the current release directly from ModelBake, then run the complete
+recurring-release loop. No model, account, or API key is needed:
 
 ```bash
+python -m pip install https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl
 modelbake tour
 ```
 
 That one credential-free command builds a Q4 fixture baseline, builds a Q4+Q8
 candidate with the same content cache, and prints the exact release diff. The
-fixture proves the workflow—not GGUF or model-runtime compatibility.
+fixture proves the workflow, not GGUF or model-runtime compatibility.
+
+To work on ModelBake itself, clone the repository and create a development
+environment:
 
 ```bash
 python3 -m venv .venv
