@@ -38,7 +38,10 @@ assert.deepEqual(observed.sort(), expected);
 const tracker = readFileSync(join(siteRoot, "download-tracking.js"), "utf8");
 assert.match(tracker, /window\.va\("pageview"/);
 assert.match(tracker, /route: "\/download\/\[artifact\]\/\[version\]\/\[location\]"/);
-assert.match(tracker, /productionHosts = new Set\(\["modelbake\.vercel\.app"\]\)/);
+assert.match(
+  tracker,
+  /productionHosts = new Set\(\["modelbake\.dev", "www\.modelbake\.dev", "modelbake\.vercel\.app"\]\)/
+);
 assert.doesNotMatch(tracker, /localStorage|sessionStorage|document\.cookie|link\.href/);
 
 console.log(`download tracking contract passed (${observed.length} CTAs)`);
