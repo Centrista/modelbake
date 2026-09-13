@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -43,5 +43,27 @@ assert.match(
   /productionHosts = new Set\(\["modelbake\.dev", "www\.modelbake\.dev", "modelbake\.vercel\.app"\]\)/
 );
 assert.doesNotMatch(tracker, /localStorage|sessionStorage|document\.cookie|link\.href/);
+
+const index = readFileSync(join(siteRoot, "index.html"), "utf8");
+assert.match(index, /<meta name="robots" content="index, follow, max-image-preview:large" \/>/);
+assert.match(index, /<script type="application\/ld\+json">/);
+assert.match(index, /"@type": "SoftwareApplication"/);
+assert.match(index, /"price": "0"/);
+assert.match(index, /href="https:\/\/modelbake\.dev\/llms\.txt"/);
+
+for (const name of ["robots.txt", "sitemap.xml", "llms.txt"]) {
+  assert.equal(existsSync(join(siteRoot, name)), true, `${name} is missing`);
+}
+
+const robots = readFileSync(join(siteRoot, "robots.txt"), "utf8");
+assert.match(robots, /Sitemap: https:\/\/modelbake\.dev\/sitemap\.xml/);
+
+const sitemap = readFileSync(join(siteRoot, "sitemap.xml"), "utf8");
+assert.match(sitemap, /<loc>https:\/\/modelbake\.dev\/<\/loc>/);
+assert.match(sitemap, /<loc>https:\/\/modelbake\.dev\/real-evidence\.html<\/loc>/);
+
+const llms = readFileSync(join(siteRoot, "llms.txt"), "utf8");
+assert.match(llms, /ModelBake is a free, Apache-2\.0 local CLI/);
+assert.match(llms, /modelbake tour/);
 
 console.log(`download tracking contract passed (${observed.length} CTAs)`);

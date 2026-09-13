@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="See what changed between GGUF builds. ModelBake remembers the model, converter, settings, and output files locally." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#f0ede5" />
     <meta property="og:title" content="ModelBake — See what changed in your GGUF build" />
     <meta property="og:description" content="ModelBake remembers your last GGUF build and shows exactly what changed in the next one." />
@@ -14,10 +15,39 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://modelbake.dev/product/build-record.png" />
     <link rel="canonical" href="https://modelbake.dev/" />
+    <link rel="alternate" type="text/plain" href="https://modelbake.dev/llms.txt" title="ModelBake product facts" />
     <title>ModelBake — See what changed in your GGUF build</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23111111'/%3E%3Cpath d='M7 23V9h4l5 7 5-7h4v14h-4v-7l-5 6-5-6v7z' fill='%23ff5c35'/%3E%3C/svg%3E" />
     <script>document.documentElement.classList.add("js")</script>
     <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "ModelBake",
+        "url": "https://modelbake.dev/",
+        "description": "A local open-source CLI that records and compares Llama-to-GGUF model builds.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "macOS, Linux",
+        "softwareVersion": "0.1.0",
+        "downloadUrl": "https://modelbake.dev/downloads/modelbake_ai-0.1.0-py3-none-any.whl",
+        "softwareRequirements": "Python 3.11 or newer",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "Local Llama safetensors to GGUF build records",
+          "GGUF release comparison",
+          "Digest-verified local cache",
+          "Accepted release baselines",
+          "Optional GitHub Actions integration"
+        ]
+      }
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
