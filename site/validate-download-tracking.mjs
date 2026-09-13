@@ -20,7 +20,7 @@ for (const name of documents) {
   assert.match(html, /<script src="\.\/download-tracking\.js"><\/script>/);
   const anchors = html.match(/<a\b[^>]*>/g) || [];
   for (const anchor of anchors) {
-    const packageLink = /href="\.\/downloads\//.test(anchor);
+    const packageLink = /href="\.\/downloads\/[^"]+\.(?:whl|tar\.gz)"/.test(anchor);
     const tracked = /data-download-artifact=/.test(anchor);
     if (packageLink) assert.equal(tracked, true, `${name} has an untracked package link`);
     if (!tracked) continue;
@@ -51,7 +51,7 @@ assert.match(index, /"@type": "SoftwareApplication"/);
 assert.match(index, /"price": "0"/);
 assert.match(index, /href="https:\/\/modelbake\.dev\/llms\.txt"/);
 
-for (const name of ["robots.txt", "sitemap.xml", "llms.txt"]) {
+for (const name of ["robots.txt", "sitemap.xml", "llms.txt", "downloads/SHA256SUMS"]) {
   assert.equal(existsSync(join(siteRoot, name)), true, `${name} is missing`);
 }
 
@@ -65,5 +65,9 @@ assert.match(sitemap, /<loc>https:\/\/modelbake\.dev\/real-evidence\.html<\/loc>
 const llms = readFileSync(join(siteRoot, "llms.txt"), "utf8");
 assert.match(llms, /ModelBake is a free, Apache-2\.0 local CLI/);
 assert.match(llms, /modelbake tour/);
+
+const sums = readFileSync(join(siteRoot, "downloads", "SHA256SUMS"), "utf8");
+assert.match(sums, /^33f9b250c53b36a4e2c005ea4c86689d11c29500174aadfbe11d1adb76bc3df6  modelbake_ai-0\.1\.0-py3-none-any\.whl$/m);
+assert.match(sums, /^22e80c9afc235fe5b93904315da22ad63181d042d5076ef63df9dabcb2176cc3  modelbake_ai-0\.1\.0\.tar\.gz$/m);
 
 console.log(`download tracking contract passed (${observed.length} CTAs)`);
