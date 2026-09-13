@@ -1,0 +1,86 @@
+name: Review model release
+
+on:
+  workflow_dispatch:
+    inputs:
+      initial_baseline:
+        description: First release of an empty channel
+        required: true
+        default: false
+        type: boolean
+      record_acceptance:
+        description: Consume the exact review receipt after your release policy passes
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: modelbake-production
+  cancel-in-progress: false
+
+jobs:
+  model-release:
+    # The v0 adapter needs your pinned llama.cpp tools and local checkpoint.
+    runs-on: [self-hosted, modelbake]
+    timeout-minutes: 60
+    steps:
+      # Manual trusted invocation only: do not execute unreviewed pull-request model
+      # inputs or recipes on a persistent self-hosted runner.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - name: Check the one-time runner configuration
+        shell: bash
+        env:
+          MODELBAKE_SOURCE_ROOT: ${{ vars.MODELBAKE_SOURCE_ROOT }}
+          MODELBAKE_CACHE_DIRECTORY: ${{ vars.MODELBAKE_CACHE_DIRECTORY }}
+          MODELBAKE_BASELINE_STORE: ${{ vars.MODELBAKE_BASELINE_STORE }}
+        run: |
+          for value in "$MODELBAKE_SOURCE_ROOT" "$MODELBAKE_CACHE_DIRECTORY" "$MODELBAKE_BASELINE_STORE"; do
+            if [[ -z "$value" || "$value" != /* ]]; then
+              echo "Set MODELBAKE_SOURCE_ROOT, MODELBAKE_CACHE_DIRECTORY, and MODELBAKE_BASELINE_STORE to absolute paths in repository variables." >&2
+              exit 1
+            fi
+          done
+      - name: Build and review the release record
+        id: modelbake
+        uses: ./.github/actions/modelbake
+        with:
+          recipe: modelbake.yaml
+          run-directory: .modelbake/runs/${{ github.run_id }}-${{ github.run_attempt }}
+          cache-directory: ${{ vars.MODELBAKE_CACHE_DIRECTORY }}
+          source-root: ${{ vars.MODELBAKE_SOURCE_ROOT }}
+          baseline-store: ${{ vars.MODELBAKE_BASELINE_STORE }}
+          baseline-name: production
+          initial-baseline: ${{ inputs.initial_baseline }}
+          # Keep private model bytes on the runner. Opt in only after reviewing
+          # GitHub cache size limits, data handling, and model redistribution rights.
+          enable-github-cache: "false"
+          upload-evidence: "false"
+          artifact-name: modelbake-${{ github.sha }}
+      - name: Surface the evidence paths
+        env:
+          MODELBAKE_MANIFEST: ${{ steps.modelbake.outputs.manifest }}
+          MODELBAKE_REPORT: ${{ steps.modelbake.outputs.report }}
+          MODELBAKE_COMPARISON: ${{ steps.modelbake.outputs.comparison }}
+          MODELBAKE_REVIEW: ${{ steps.modelbake.outputs.review }}
+        run: |
+          printf 'Manifest: %s\n' "$MODELBAKE_MANIFEST"
+          printf 'Report: %s\n' "$MODELBAKE_REPORT"
+          printf 'Comparison: %s\n' "$MODELBAKE_COMPARISON"
+          printf 'Review receipt: %s\n' "$MODELBAKE_REVIEW"
+      - name: Record the exact reviewed release
+        if: ${{ inputs.record_acceptance }}
+        env:
+          MODELBAKE_MANIFEST: ${{ steps.modelbake.outputs.manifest }}
+          MODELBAKE_CACHE_DIRECTORY: ${{ vars.MODELBAKE_CACHE_DIRECTORY }}
+          MODELBAKE_BASELINE_STORE: ${{ vars.MODELBAKE_BASELINE_STORE }}
+          MODELBAKE_BASELINE_NAME: production
+          MODELBAKE_REVIEW: ${{ steps.modelbake.outputs.review }}
+        run: |
+          modelbake baseline accept "$MODELBAKE_MANIFEST" --store "$MODELBAKE_BASELINE_STORE" --name "$MODELBAKE_BASELINE_NAME" --allow-artifact-root "$MODELBAKE_CACHE_DIRECTORY" --review "$MODELBAKE_REVIEW"
+          modelbake baseline check "$MODELBAKE_MANIFEST" --store "$MODELBAKE_BASELINE_STORE" --name "$MODELBAKE_BASELINE_NAME" --allow-artifact-root "$MODELBAKE_CACHE_DIRECTORY"

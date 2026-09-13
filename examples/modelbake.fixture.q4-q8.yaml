@@ -1,0 +1,20 @@
+schema: modelbake/v0
+project: modelbake-fixture-expansion
+source:
+  kind: local
+  path: fixture/source
+  architecture: llama
+  format: fixture
+targets:
+  - name: q4
+    quantization: Q4_0
+  - name: q8
+    quantization: Q8_0
+smoke:
+  prompt: "ModelBake fixture prompt"
+  max_tokens: 4
+runner:
+  adapter: fixture
+  name: deterministic-local-fixture
+  timeout_seconds: 30
+  max_log_bytes: 16384

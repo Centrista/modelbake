@@ -1,0 +1,52 @@
+name: Release candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: Type BUILD RELEASE CANDIDATE to run the non-publishing release gate
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-candidate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Require explicit non-publishing confirmation
+        env:
+          RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
+        run: |
+          if [ "$RELEASE_CONFIRMATION" != "BUILD RELEASE CANDIDATE" ]; then
+            echo "Confirmation did not match BUILD RELEASE CANDIDATE." >&2
+            exit 1
+          fi
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Confirm the hosted runner has Node for site syntax validation
+        run: node --version
+      - name: Install release dependencies
+        run: >-
+          python -m pip install --upgrade pip &&
+          python -m pip install '.[dev]' build ruff
+      - name: Run fail-closed release gate
+        run: make release-check
+      - name: Upload verified release candidate
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: modelbake-release-candidate-${{ github.sha }}
+          path: release-staging/publish/
+          if-no-files-found: error
+          retention-days: 14

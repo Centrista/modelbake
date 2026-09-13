@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="See what changed between GGUF builds. ModelBake remembers the model, converter, settings, and output files locally." />
+    <meta name="theme-color" content="#f0ede5" />
+    <meta property="og:title" content="ModelBake — See what changed in your GGUF build" />
+    <meta property="og:description" content="ModelBake remembers your last GGUF build and shows exactly what changed in the next one." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://modelbake.dev/" />
+    <meta property="og:image" content="https://modelbake.dev/product/build-record.png" />
+    <meta property="og:image:alt" content="ModelBake build record showing source, toolchain, runner, and release graph." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://modelbake.dev/product/build-record.png" />
+    <link rel="canonical" href="https://modelbake.dev/" />
+    <title>ModelBake — See what changed in your GGUF build</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23111111'/%3E%3Cpath d='M7 23V9h4l5 7 5-7h4v14h-4v-7l-5 6-5-6v7z' fill='%23ff5c35'/%3E%3C/svg%3E" />
+    <script>document.documentElement.classList.add("js")</script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="ModelBake home"><span class="wordmark-icon" aria-hidden="true">M</span><span>ModelBake</span></a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#how">How it works</a><a href="#demo">Try it</a><a href="#open">Install</a>
+      </nav>
+      <a class="nav-cta" href="./real-evidence.html">Real build <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy reveal">
+          <p class="overline">Build history for GGUF files</p>
+          <h1 id="hero-title">See what changed<br /><em>in your GGUF.</em></h1>
+          <p class="hero-deck">ModelBake remembers the model, converter, settings, and files from your last build. Build again and it shows the difference.</p>
+          <ul class="hero-scope" aria-label="Current supported route">
+            <li>runs locally</li><li>never uploads your model</li><li>free and open source</li><li>macOS + Linux</li>
+          </ul>
+          <div class="hero-actions">
+            <a class="button button-dark" href="#demo">Try the 60-second demo <span aria-hidden="true">↓</span></a>
+            <a class="button button-quiet" href="./downloads/modelbake_ai-0.1.0-py3-none-any.whl" download data-download-artifact="wheel" data-download-location="hero" data-download-version="0.1.0">Download free CLI <span>↓</span></a>
+          </div>
+          <div class="hero-install"><span>THEN RUN</span><code><span>pip install ~/Downloads/modelbake_ai-0.1.0-py3-none-any.whl</span><span>modelbake tour</span></code><button type="button" data-copy="pip install ~/Downloads/modelbake_ai-0.1.0-py3-none-any.whl &amp;&amp; modelbake tour" aria-label="Copy install and tour command"><span class="copy-label">copy</span></button></div>
+          <p class="hero-qualifier">FREE FOREVER · APACHE-2.0 · NO ACCOUNT</p>
+        </div>
+
+        <a class="hero-object reveal" href="./real-evidence.html" aria-label="Inspect the release record">
+          <div class="object-meta"><span>EXAMPLE RELEASE DIFF</span><span>PUBLISHER ACCEPTANCE</span></div>
+          <div class="object-title"><small>WHAT CHANGED?</small><strong>One change.<br />Easy to review.</strong></div>
+          <div class="record-table">
+            <div class="record-row"><span>MODEL</span><strong>Same</strong><code>no change</code></div>
+            <div class="record-row changed-row"><span>LLAMA.CPP</span><strong>Changed</strong><code>new converter</code></div>
+            <div class="record-row changed-row"><span>Q4_0 FILE</span><strong>Changed</strong><code>new GGUF bytes</code></div>
+          </div>
+          <div class="record-result">
+            <span>NEXT STEP</span><strong>Review this build</strong><small>Everything else stayed the same.</small>
+          </div>
+          <span class="object-link">SEE THE REAL RELEASE RECORD <b>↗</b></span>
+        </a>
+
+        <div class="hero-facts" id="how" role="list" aria-label="How ModelBake works">
+          <div role="listitem"><span aria-hidden="true">01</span><strong>Build a GGUF</strong><small>ModelBake remembers how</small></div>
+          <div role="listitem"><span aria-hidden="true">02</span><strong>Build it again</strong><small>same steps, new release</small></div>
+          <div role="listitem"><span aria-hidden="true">03</span><strong>See the difference</strong><small>review only what changed</small></div>
+        </div>
+      </section>
+
+      <section class="git-gap" aria-labelledby="git-gap-title">
+        <header class="git-gap-heading reveal">
+          <p class="overline">Why Git is not enough</p>
+          <h2 id="git-gap-title">Git says clean.<br /><em>The release changed.</em></h2>
+          <p>Your code can stay the same while the downloaded model, converter, or finished GGUF changes. ModelBake checks all of them.</p>
+        </header>
+        <div class="git-gap-flow reveal" role="img" aria-label="Git shows the same commit while ModelBake detects changed converter and GGUF bytes">
+          <article class="gap-card gap-same"><span>REPOSITORY</span><strong>same commit</strong><code>git status: clean</code></article>
+          <div class="gap-arrow" aria-hidden="true">+</div>
+          <article class="gap-card gap-change"><span>LLAMA.CPP</span><strong>tool bytes changed</strong><code>sha256 moved</code></article>
+          <div class="gap-arrow" aria-hidden="true">→</div>
+          <article class="gap-card gap-change"><span>GGUF</span><strong>output bytes changed</strong><code>sha256 moved</code></article>
+          <div class="gap-verdict"><span>MODELBAKE</span><strong>review again</strong><small>the old acceptance no longer applies</small></div>
+        </div>
+      </section>
+
+      <section class="product-section" id="product" aria-labelledby="product-title">
+        <header class="product-heading reveal">
+          <div><p class="overline">The actual product</p><p class="product-intro">Every build gets one readable record. The next build gets a clear before-and-after.</p></div>
+          <h2 id="product-title">Remember.<br />Then compare.</h2>
+        </header>
+        <div class="product-shots">
+          <figure class="product-shot reveal">
+            <div class="product-frame">
+              <img src="./product/build-record.png" width="1440" height="800" loading="lazy" alt="ModelBake build record showing the source, toolchain, runner, and release graph." />
+            </div>
+            <figcaption><strong>Build record</strong><span>Open any step. Inspect the input, tool, command, output digest, and evidence scope.</span></figcaption>
+          </figure>
+          <figure class="product-shot product-shot-offset reveal">
+            <div class="product-frame">
+              <img src="./product/release-diff.png" width="1440" height="540" loading="lazy" alt="ModelBake release comparison showing reused and newly added outputs." />
+            </div>
+            <figcaption><strong>Release diff</strong><span>See reused work and new outputs without reconstructing the release from logs.</span></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="demo-section" id="demo" aria-labelledby="demo-title">
+        <header class="demo-header reveal">
+          <div><p class="overline overline-light">No model required</p><h2 id="demo-title">Try a sample build.</h2></div>
+          <div class="demo-intro"><p>Replay a tiny example and open any step. Nothing is uploaded and no real model is needed.</p><button class="button button-hot" id="run-build" type="button" disabled><span class="run-label">Loading example</span><span aria-hidden="true">→</span></button></div>
+        </header>
+
+        <div class="build-surface reveal" data-state="ready" data-stage="0">
+          <div class="build-topline"><div><span class="surface-mark">M</span><strong>sample GGUF build</strong></div><div class="build-state"><i></i><span id="build-status">loading example</span></div></div>
+          <div class="scope-row">
+            <div><small>SOURCE</small><code id="demo-source">loading…</code></div><div><small>TOOLCHAIN</small><code>fixture/v0</code></div><div><small>RUNNER</small><code>modelbake.fixture/v0</code></div><div><small>SCOPE</small><code>this fixture runner</code></div>
+          </div>
+          <div class="graph" role="group" aria-label="Interactive build graph">
+            <button class="graph-node source-node" type="button" data-node="source" data-stage="0"><small>01 / SOURCE</small><strong>Fixture bundle</strong><span>245 bytes</span><i class="node-light" aria-hidden="true"></i></button>
+            <div class="graph-link" aria-hidden="true"><span></span></div>
+            <button class="graph-node" type="button" data-node="f16" data-stage="1"><small>02 / CONVERT</small><strong>Fixture · F16</strong><span>444 bytes</span><i class="node-light" aria-hidden="true"></i></button>
+            <div class="graph-fork" aria-hidden="true"><span></span><i></i><i></i></div>
+            <div class="graph-branches">
+              <div><span class="branch-placeholder">F16</span><div class="graph-link short" aria-hidden="true"><span></span></div><button class="graph-node observed-node" type="button" data-node="run-f16" data-stage="3"><small>03A / FIXTURE EXECUTE</small><strong>4 tokens</strong><span>recorded in manifest</span><i class="node-light" aria-hidden="true"></i></button></div>
+              <div><button class="graph-node" type="button" data-node="q4" data-stage="2"><small>03B / TRANSFORM</small><strong>Fixture · Q4_0</strong><span>547 bytes</span><i class="node-light" aria-hidden="true"></i></button><div class="graph-link short" aria-hidden="true"><span></span></div><button class="graph-node observed-node" type="button" data-node="run-q4" data-stage="3"><small>04B / FIXTURE EXECUTE</small><strong>4 tokens</strong><span>recorded in manifest</span><i class="node-light" aria-hidden="true"></i></button></div>
+              <div><button class="graph-node" type="button" data-node="q8" data-stage="2"><small>03C / TRANSFORM</small><strong>Fixture · Q8_0</strong><span>547 bytes</span><i class="node-light" aria-hidden="true"></i></button><div class="graph-link short" aria-hidden="true"><span></span></div><button class="graph-node observed-node" type="button" data-node="run-q8" data-stage="3"><small>04C / FIXTURE EXECUTE</small><strong>4 tokens</strong><span>recorded in manifest</span><i class="node-light" aria-hidden="true"></i></button></div>
+            </div>
+          </div>
+          <div class="build-bottom"><div class="build-log" aria-live="polite"><span id="log-step">$ modelbake demo</span><strong id="log-message">Loading the bundled acceptance manifest.</strong></div><button class="inspect-button" id="inspect-node" type="button">Inspect selected node <span>↗</span></button></div>
+        </div>
+        <aside class="node-drawer" id="node-drawer" role="dialog" aria-modal="false" aria-live="polite" aria-labelledby="drawer-title">
+          <button class="drawer-close" type="button" aria-label="Close node inspector">×</button><p class="overline"><span>NODE</span> resolved observation</p><h3 id="drawer-title">HF checkpoint</h3><dl id="drawer-details"></dl><pre id="drawer-command"></pre>
+        </aside>
+      </section>
+
+      <section class="memory-section" id="loop" aria-labelledby="memory-title">
+        <header class="section-heading reveal">
+          <p class="overline">Why you come back</p>
+          <h2 id="memory-title">Every new build<br />gets easier.</h2>
+          <p>Unchanged work is reused. Changed work is obvious.</p>
+        </header>
+        <div class="memory-board reveal">
+          <article class="run-record cold-record">
+            <div class="record-top"><span>FIRST RUN</span><code id="cold-run">62f84e2a…</code></div>
+            <strong>4 produced · 3 fixture-observed</strong>
+            <div class="record-nodes" role="img" aria-label="Seven completed nodes"><i></i><i></i><i></i><i></i><i class="run"></i><i class="run"></i><i class="run"></i></div>
+            <small>new evidence written</small>
+          </article>
+          <div class="memory-arrow" aria-hidden="true"><span>same inputs</span>→</div>
+          <article class="run-record warm-record">
+            <div class="record-top"><span>REPEAT RUN</span><code id="warm-run">ac8717d1…</code></div>
+            <strong>7 digest-verified cache hits</strong>
+            <div class="record-nodes" role="img" aria-label="Seven verified cache hits"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <small>no adapter step re-executed</small>
+          </article>
+          <aside class="memory-note"><span>THE RETURN HOOK</span><p>Your next release starts with the last one: reuse verified bytes, then review exactly what moved.</p><code>$ modelbake compare approved candidate</code></aside>
+        </div>
+        <div class="compare-terminal reveal" role="region" aria-label="Example ModelBake comparison">
+          <div class="terminal-bar"><span>RECORDED FIXTURE EXPANSION</span><code>q4 → q4 + q8</code></div>
+          <pre><span>$ modelbake compare approved/manifest.json candidate/manifest.json</span>
+recipe: changed                    recorded source digest: same
+declared runner: same              observed runner: same
+
+↺ source             reused_from_cache       recorded digest same
+↺ convert-f16-base   reused_from_cache       recorded digest same
+↺ quantize-q4        reused_from_cache       recorded digest same
+↺ smoke-q4           reused_from_cache       recorded digest same
++ quantize-q8        added                   recorded output added
++ smoke-q8           added                   fixture observation added
+
+<b>No promotion decision inferred.</b></pre>
+        </div>
+      </section>
+
+      <section class="integration-section" id="integrate" aria-labelledby="integration-title">
+        <div class="integration-copy reveal">
+          <p class="overline">Add it to your current workflow</p>
+          <h2 id="integration-title">Keep Git.<br />Add one check.</h2>
+          <p>ModelBake runs beside Git and <code>llama.cpp</code>. Add one CI step and every GGUF release gets a record and a comparison.</p>
+          <div class="integration-actions"><a class="button button-dark" href="./downloads/modelbake_ai-0.1.0.tar.gz" download data-download-artifact="source" data-download-location="integration" data-download-version="0.1.0">Download source <span>↓</span></a><button class="command-copy" type="button" data-copy="modelbake compare approved/manifest.json candidate/manifest.json --markdown"><code>modelbake compare … --markdown</code><span class="copy-label">copy</span></button></div>
+        </div>
+        <div class="workflow-card reveal" role="region" aria-label="GitHub Actions integration preview">
+          <div><span>MODEL RELEASE / CI</span><i>●</i></div>
+          <pre><em>- uses:</em> ./.github/actions/modelbake
+  <em>with:</em>
+    recipe: modelbake.yaml
+    baseline-store: .modelbake/baselines
+    baseline-name: production
+    enable-github-cache: "false"
+    upload-evidence: "false"
+
+<strong>✓</strong> record the artifact bytes produced
+<strong>✓</strong> verify the current bytes
+<strong>✓</strong> compare with the accepted predecessor
+<strong>✓</strong> stop local acceptance when bytes move</pre>
+          <a href="./downloads/modelbake_ai-0.1.0.tar.gz" download data-download-artifact="source" data-download-location="workflow" data-download-version="0.1.0">SOURCE + CI EXAMPLE INCLUDED ↓</a>
+        </div>
+      </section>
+
+      <section class="proof-section" id="proof" aria-labelledby="proof-title">
+        <header class="section-heading reveal"><p class="overline">Evidence, correctly named</p><h2 id="proof-title">Know what<br />green means.</h2></header>
+        <div class="proof-ledger reveal">
+          <div class="ledger-head"><span>THE BUILD ESTABLISHES</span><span>THE BUILD DOES NOT ESTABLISH</span></div>
+          <div class="ledger-row"><div><i>✓</i><p>Output bytes were produced and digested.</p></div><div><i>×</i><p>No model quality conclusion.</p></div></div>
+          <div class="ledger-row"><div><i>✓</i><p>The fixture adapter decoded each requested test artifact.</p></div><div><i>×</i><p>That any model runtime opened them.</p></div></div>
+          <div class="ledger-row"><div><i>✓</i><p>The manifest records source, recipe, runner, and output digests.</p></div><div><i>×</i><p>Future reproduction, license, security, or production readiness.</p></div></div>
+        </div>
+        <blockquote class="truth-line reveal"><span>“</span>A green process exit is not a green model.<span>”</span></blockquote>
+      </section>
+
+      <section class="open-section" id="open" aria-labelledby="open-title">
+        <div class="open-mark reveal" aria-hidden="true"><span>M</span><i>OPEN</i></div>
+        <div class="open-copy reveal">
+          <p class="overline">Local from the first build</p>
+          <h2 id="open-title">Run the<br />first diff.</h2>
+          <p>The local CLI stays free. No account. No model upload. One command shows the complete baseline → candidate → diff loop.</p>
+          <div class="open-actions"><a class="command-copy command-copy-light" href="./downloads/modelbake_ai-0.1.0-py3-none-any.whl" download data-download-artifact="wheel" data-download-location="open" data-download-version="0.1.0"><code>modelbake_ai-0.1.0.whl</code><span class="copy-label">download</span></a><a href="./downloads/modelbake_ai-0.1.0.tar.gz" download data-download-artifact="source" data-download-location="open" data-download-version="0.1.0">Download source <span>↓</span></a><a href="./real-evidence.html">Inspect release record <span>↗</span></a></div>
+          <div class="quickstart" role="region" aria-labelledby="quickstart-title">
+            <div class="quickstart-bar">
+              <strong id="quickstart-title">Exact quickstart</strong>
+              <button type="button" data-copy="python -m pip install ./modelbake_ai-0.1.0-py3-none-any.whl&#10;modelbake tour" aria-label="Copy all quickstart commands"><span class="copy-label">copy all</span></button>
+            </div>
+            <pre><code><span>01</span> python -m pip install ./modelbake_ai-0.1.0-py3-none-any.whl
+<span>02</span> modelbake tour
+
+     baseline → candidate → exact release diff</code></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer><a class="wordmark" href="#top"><span class="wordmark-icon">M</span><span>ModelBake</span></a><p>Local release records for Llama → GGUF builds.</p><span>FREE FOREVER CLI · V0.1.0 · ANONYMOUS DOWNLOAD COUNTS</span></footer>
+    <div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard</div>
+    <script src="./download-tracking.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

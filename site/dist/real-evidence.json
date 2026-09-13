@@ -1,0 +1,247 @@
+{
+  "acceptance": {
+    "candidate_manifest_digest": "sha256:1a43f47fe6e8356cc442b08d56c17838a81fa6c0641b5630e55d05dba294659c",
+    "channel": "release",
+    "comparison_digest": "sha256:124ac0e54776015606bbfdf4f428a46fd71970aef3a9c129276595858f7c26f2",
+    "decision_digest": "sha256:c3334490aeba0bae16a49b96bf6f9b69f0183554bab4c3482e9bdb8f104eff64",
+    "kind": "publisher-generated-cas-acceptance",
+    "predecessor_decision_digest": "sha256:64e404a9865d8a209ea648f0aea44ce23bac9116c55bbe515d06f9611bf9274b",
+    "review_digest": "sha256:7f857a8b13da45bdacc934282b2f7deb9546bc0a5ed53f77a6dc0cf8d24ac2e2"
+  },
+  "cold_run": {
+    "digest_verification": {
+      "checked": 6,
+      "failures": 0
+    },
+    "manifest": {
+      "modelbake_digest": "sha256:351bddd93ef6f033ab0f486c75da0702cfb6b274504e420d0de697921f9019ad",
+      "sha256": "sha256:af561abecadf385236d7356bc7b25f55dc85a5b3c726c2b7770014e3f43cb635",
+      "size_bytes": 72339
+    },
+    "nodes": [
+      {
+        "cache_key": "sha256:867e71c9d7a2e6545ca93f7a1d000aa319b8ae1ac1e25ea8163add849aaa2d8f",
+        "id": "source",
+        "kind": "source",
+        "output_digests": {
+          "source": "sha256:f2a1545d636185ef79093146af8880a8c916d2d649e8d769de5f869d58534c1d"
+        },
+        "output_sizes_bytes": {
+          "source": 11772381
+        },
+        "state": "produced"
+      },
+      {
+        "cache_key": "sha256:95b7cba69f99228f4bec0c872cfcc13a153ba996815d9f8d2a51e328c1e7fc33",
+        "id": "convert-f16-base",
+        "kind": "convert",
+        "output_digests": {
+          "artifact": "sha256:ccc976e561309621569d30e9274ecb64c2d63dd3c431bcafe3ac88e84dde7262"
+        },
+        "output_sizes_bytes": {
+          "artifact": 10008000
+        },
+        "state": "produced"
+      },
+      {
+        "cache_key": "sha256:1ad8db5962944cdcc830cd3680ea3e60ccb5df0ab2b94a8070ed39105bf236bb",
+        "id": "quantize-q4_0",
+        "kind": "quantize",
+        "output_digests": {
+          "artifact": "sha256:6d3e8cf71047764f9fcb2859d0216bbcd137947e779d568b01b441f254adbf42"
+        },
+        "output_sizes_bytes": {
+          "artifact": 4390336
+        },
+        "state": "produced"
+      },
+      {
+        "cache_key": "sha256:5774a53857c8459212948eedb710ee68c07bc70f218a7ec9eae4489774196b6a",
+        "id": "quantize-q8_0",
+        "kind": "quantize",
+        "output_digests": {
+          "artifact": "sha256:a013d7fa2c5dc019ac21e3b30041740aafe438a7231d31ab0fecf0e3341603c0"
+        },
+        "output_sizes_bytes": {
+          "artifact": 5676480
+        },
+        "state": "produced"
+      },
+      {
+        "cache_key": "sha256:eff7c3f8edfdbb9db3701a5930dba9d6c31f7567a202762d08b8304a98b3a13d",
+        "id": "smoke-q4_0",
+        "kind": "smoke",
+        "output_digests": {
+          "observation": "sha256:1f70f886f9d50f7e768a2cae7909ed4f8398b9853402071f1c9055c2a5125123"
+        },
+        "output_sizes_bytes": {
+          "observation": 1123
+        },
+        "state": "executed_on_runner"
+      },
+      {
+        "cache_key": "sha256:f69dc2942e79d83038a4e76a7b030a33765273f9f9962f5293bb70b5beab476d",
+        "id": "smoke-q8_0",
+        "kind": "smoke",
+        "output_digests": {
+          "observation": "sha256:f4413a17bfbb7d5fa0c29a130997006a4c6edb46253f9e4ec2936622d9482059"
+        },
+        "output_sizes_bytes": {
+          "observation": 1104
+        },
+        "state": "executed_on_runner"
+      }
+    ],
+    "run_id": "af42e305f2cc44a694e90f3aa5c0c097",
+    "states": {
+      "executed_on_runner": 2,
+      "produced": 4
+    }
+  },
+  "exclusions": [
+    "Digest verification is not a model-quality evaluation.",
+    "Runner exit 0 is not a compatibility guarantee for other hosts.",
+    "The public record excludes local paths, commands, prompts, logs, stdout, and stderr.",
+    "Package hashes bind this record to exact local release files; they do not prove publication.",
+    "The publisher-generated CAS acceptance records no identity, authorization, or independent attestation."
+  ],
+  "lineage": {
+    "node_ids": [
+      "source",
+      "convert-f16-base",
+      "quantize-q4_0",
+      "quantize-q8_0",
+      "smoke-q4_0",
+      "smoke-q8_0"
+    ],
+    "recipe_digest": "sha256:dc4d9ed337f08a5677b889e2455d7972f8fe46793e1e8b325667245fbe6849c3",
+    "source_digest": "sha256:bf303c75852ccc59eca65d2f1e200d2c0709e0abd5ed3d68a1cce3d8bb9ecc29"
+  },
+  "release": {
+    "distribution": "modelbake-ai",
+    "python_source_digest": "sha256:1804241dd60b9b54e1d42093caefce87c4a23797f512b76a22f2ba32649dbfb4",
+    "sdist": {
+      "filename": "modelbake_ai-0.1.0.tar.gz",
+      "sha256": "sha256:22e80c9afc235fe5b93904315da22ad63181d042d5076ef63df9dabcb2176cc3",
+      "size_bytes": 143902
+    },
+    "version": "0.1.0",
+    "wheel": {
+      "filename": "modelbake_ai-0.1.0-py3-none-any.whl",
+      "sha256": "sha256:33f9b250c53b36a4e2c005ea4c86689d11c29500174aadfbe11d1adb76bc3df6",
+      "size_bytes": 64246
+    }
+  },
+  "runner": {
+    "adapter": "llamacpp",
+    "declared_revision": "56381e407c0ccfb3a6f71e668a27a901001d22ce",
+    "host": {
+      "byteorder": "little",
+      "machine": "arm64",
+      "os": "Darwin",
+      "os_release": "25.5.0",
+      "python_implementation": "CPython",
+      "python_version": "3.13.9"
+    },
+    "observed_revision": "56381e407c0ccfb3a6f71e668a27a901001d22ce",
+    "revision_match": true,
+    "tool_file_digests": {
+      "convert": "sha256:e9a1da876330bbce9687541ab31736542a01b4ac43c6686126514a50f122fb7f",
+      "python": "sha256:b64058cfba60c56399509ef923a2b39457c621095583aaff7488c93f1ee9e60a",
+      "quantize": "sha256:ddc878d6c1aa614492674395b266f10562564e25d796cc939737813b27ba9e22",
+      "runner": "sha256:a6f6b3e7993f31440ff7c36cbf634c0c245a459d4f1807bcc913b4d03920cdd0"
+    },
+    "tool_source_had_changes": false,
+    "tool_source_worktree_digest": "sha256:995eed72c105e182ac2acd1f506d1653ee17965868da29960a9dc65d4ad917be"
+  },
+  "schema": "modelbake.public-acceptance.v2",
+  "warm_run": {
+    "digest_verification": {
+      "checked": 6,
+      "failures": 0
+    },
+    "manifest": {
+      "modelbake_digest": "sha256:1a43f47fe6e8356cc442b08d56c17838a81fa6c0641b5630e55d05dba294659c",
+      "sha256": "sha256:ddbd65b4cee6e503e052aa8fa8f74437ca1fc61d71653315e48041fa19996348",
+      "size_bytes": 71787
+    },
+    "nodes": [
+      {
+        "cache_key": "sha256:867e71c9d7a2e6545ca93f7a1d000aa319b8ae1ac1e25ea8163add849aaa2d8f",
+        "id": "source",
+        "kind": "source",
+        "output_digests": {
+          "source": "sha256:f2a1545d636185ef79093146af8880a8c916d2d649e8d769de5f869d58534c1d"
+        },
+        "output_sizes_bytes": {
+          "source": 11772381
+        },
+        "state": "cache_hit"
+      },
+      {
+        "cache_key": "sha256:95b7cba69f99228f4bec0c872cfcc13a153ba996815d9f8d2a51e328c1e7fc33",
+        "id": "convert-f16-base",
+        "kind": "convert",
+        "output_digests": {
+          "artifact": "sha256:ccc976e561309621569d30e9274ecb64c2d63dd3c431bcafe3ac88e84dde7262"
+        },
+        "output_sizes_bytes": {
+          "artifact": 10008000
+        },
+        "state": "cache_hit"
+      },
+      {
+        "cache_key": "sha256:1ad8db5962944cdcc830cd3680ea3e60ccb5df0ab2b94a8070ed39105bf236bb",
+        "id": "quantize-q4_0",
+        "kind": "quantize",
+        "output_digests": {
+          "artifact": "sha256:6d3e8cf71047764f9fcb2859d0216bbcd137947e779d568b01b441f254adbf42"
+        },
+        "output_sizes_bytes": {
+          "artifact": 4390336
+        },
+        "state": "cache_hit"
+      },
+      {
+        "cache_key": "sha256:5774a53857c8459212948eedb710ee68c07bc70f218a7ec9eae4489774196b6a",
+        "id": "quantize-q8_0",
+        "kind": "quantize",
+        "output_digests": {
+          "artifact": "sha256:a013d7fa2c5dc019ac21e3b30041740aafe438a7231d31ab0fecf0e3341603c0"
+        },
+        "output_sizes_bytes": {
+          "artifact": 5676480
+        },
+        "state": "cache_hit"
+      },
+      {
+        "cache_key": "sha256:eff7c3f8edfdbb9db3701a5930dba9d6c31f7567a202762d08b8304a98b3a13d",
+        "id": "smoke-q4_0",
+        "kind": "smoke",
+        "output_digests": {
+          "observation": "sha256:1f70f886f9d50f7e768a2cae7909ed4f8398b9853402071f1c9055c2a5125123"
+        },
+        "output_sizes_bytes": {
+          "observation": 1123
+        },
+        "state": "cache_hit"
+      },
+      {
+        "cache_key": "sha256:f69dc2942e79d83038a4e76a7b030a33765273f9f9962f5293bb70b5beab476d",
+        "id": "smoke-q8_0",
+        "kind": "smoke",
+        "output_digests": {
+          "observation": "sha256:f4413a17bfbb7d5fa0c29a130997006a4c6edb46253f9e4ec2936622d9482059"
+        },
+        "output_sizes_bytes": {
+          "observation": 1104
+        },
+        "state": "cache_hit"
+      }
+    ],
+    "run_id": "2d92664547a94111bb7c26476cdf2fa7",
+    "states": {
+      "cache_hit": 6
+    }
+  }
+}

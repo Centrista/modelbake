@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="The real build record behind ModelBake v0.1.0: six recorded artifacts, their exact hashes, and the limits of what was tested." />
+    <meta name="theme-color" content="#111111" />
+    <link rel="canonical" href="https://modelbake.dev/real-evidence.html" />
+    <title>ModelBake — Real build record</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23111111'/%3E%3Cpath d='M7 23V9h4l5 7 5-7h4v14h-4v-7l-5 6-5-6v7z' fill='%23ff5c35'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="evidence-body">
+    <a class="skip-link" href="#evidence">Skip to evidence</a>
+    <header class="site-header evidence-nav">
+      <a class="wordmark" href="./index.html"><span class="wordmark-icon" aria-hidden="true">M</span><span>ModelBake</span></a>
+      <span>REAL BUILD RECORD / V0.1.0</span>
+      <a class="nav-cta" href="./real-evidence.json" download data-download-artifact="evidence-json" data-download-location="evidence-header" data-download-version="0.1.0">Download JSON <span aria-hidden="true">↓</span></a>
+    </header>
+    <main class="evidence-page" id="evidence">
+      <section class="evidence-hero">
+        <div>
+          <p class="overline overline-light"><span>R1</span> A real Llama → GGUF build</p>
+          <h1><span id="evidence-headline">Release record.</span><br /><em id="evidence-subhead">Loading.</em></h1>
+        </div>
+        <div class="evidence-summary">
+          <p id="evidence-summary">This page checks that the downloadable ModelBake package produced the recorded files. It does not claim that the model is good, safe, or ready for production.</p>
+          <dl>
+            <div><dt>Cold run</dt><dd id="evidence-cold-run">loading…</dd></div>
+            <div><dt>Warm run</dt><dd id="evidence-warm-run">loading…</dd></div>
+            <div><dt>Tool revision</dt><dd id="evidence-revision">loading…</dd></div>
+            <div><dt>Package</dt><dd id="evidence-version">loading…</dd></div>
+          </dl>
+          <p class="evidence-load-state" id="evidence-load-state" role="status">Loading the package-bound record…</p>
+        </div>
+      </section>
+
+      <section class="package-record record-bound" aria-labelledby="decision-title" hidden>
+        <p class="overline overline-light"><span>01</span> The saved baseline</p>
+        <h2 id="decision-title">The exact build<br />we compared against</h2>
+        <dl>
+          <div><dt>Channel</dt><dd id="evidence-channel">loading…</dd></div>
+          <div><dt>Decision digest</dt><dd id="evidence-decision">loading…</dd></div>
+          <div><dt>Review digest</dt><dd id="evidence-review">loading…</dd></div>
+          <div><dt>Candidate manifest</dt><dd id="evidence-candidate">loading…</dd></div>
+          <div><dt>Predecessor decision</dt><dd id="evidence-predecessor">loading…</dd></div>
+          <div><dt>Comparison digest</dt><dd id="evidence-comparison">loading…</dd></div>
+        </dl>
+      </section>
+
+      <section class="artifact-ledger record-bound" aria-labelledby="artifact-title" hidden>
+        <header><p class="overline overline-light"><span>02</span> What the build recorded</p><h2 id="artifact-title">Model → converter → GGUF</h2></header>
+        <div class="artifact-row artifact-head"><span>NODE</span><span>OBSERVED STATE</span><span>RECORDED BYTES</span><span>RECORDED DIGEST</span></div>
+        <div id="evidence-node-rows" aria-live="polite"><div class="artifact-row"><strong>Loading exact node records…</strong></div></div>
+      </section>
+
+      <section class="evidence-verdict record-bound" hidden>
+        <div class="verdict-stamp" aria-hidden="true"><span id="evidence-verified-count">— / 6</span><small>DIGEST CHECKED</small></div>
+        <div><p class="overline overline-light"><span>03</span> What this proves</p><h2>The build ran.<br />That is all.</h2><p>The six recorded files were checked again. The named test commands completed. A repeated build safely reused the same files.</p></div>
+      </section>
+
+      <section class="boundary-grid record-bound" hidden>
+        <article><span>CHECKED</span><ul><li>The saved baseline points to this exact build.</li><li>The comparison points to the previous and current records.</li><li>The downloadable package matches the code used.</li><li>The recorded tools and output files were checked again.</li></ul></article>
+        <article><span>NOT CLAIMED</span><ul><li>Independent certification.</li><li>Model quality or identical answers.</li><li>Support for every model, runtime, or computer.</li><li>License, security, safety, or production readiness.</li></ul></article>
+      </section>
+
+      <p class="evidence-protocol-note record-bound" hidden><strong>Status:</strong> generated by the publisher; not an independent attestation. The model was not certified. <strong>Protocol note:</strong> publisher-generated CAS acceptance; receipt-backed baseline decision; records no actor identity or authorization.</p>
+
+      <section class="package-record record-bound" aria-labelledby="package-title" hidden>
+        <p class="overline overline-light"><span>04</span> Exact downloads</p>
+        <h2 id="package-title">Package hashes</h2>
+        <dl><div><dt>Wheel SHA-256</dt><dd id="evidence-wheel-hash">loading…</dd></div><div><dt>Source SHA-256</dt><dd id="evidence-sdist-hash">loading…</dd></div></dl>
+      </section>
+
+      <div class="evidence-back"><a class="button button-hot" href="./index.html">Back to ModelBake <span>←</span></a><a href="./real-evidence.json">Inspect the public JSON ↗</a></div>
+    </main>
+    <footer><a class="wordmark" href="./index.html"><span class="wordmark-icon">M</span><span>ModelBake</span></a><p>A real build record, with clear limits.</p><span>V0.1.0 · ANONYMOUS ANALYTICS</span></footer>
+    <script src="./download-tracking.js"></script>
+    <script src="./evidence.js"></script>
+  </body>
+</html>

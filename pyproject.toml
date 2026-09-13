@@ -1,0 +1,50 @@
+[build-system]
+requires = ["flit_core>=3.11,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "modelbake-ai"
+version = "0.1.0"
+description = "Local build records and diffs for Llama-to-GGUF releases."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+authors = [{ name = "ModelBake contributors" }]
+keywords = ["ai", "llm", "gguf", "llama.cpp", "model-release", "build-system"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Operating System :: POSIX",
+]
+dependencies = ["PyYAML>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-cov>=5.0"]
+
+[project.scripts]
+modelbake = "modelbake.cli:main"
+
+[tool.flit.module]
+name = "modelbake"
+
+[tool.flit.sdist]
+include = [
+  ".github/",
+  "action.yml",
+  "CHANGELOG.md",
+  "CONTRIBUTING.md",
+  "SECURITY.md",
+  "docs/",
+  "examples/",
+  "scripts/",
+  "tests/",
+]
+exclude = [
+  ".integration/",
+  "site/",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]

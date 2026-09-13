@@ -1,0 +1,70 @@
+{
+  "schema": "modelbake.site-evidence.v1",
+  "source": "generated from verified local ModelBake fixture acceptance",
+  "run_id": "fa8ea279db32420886fd946c01a384a7",
+  "project": "fixture-demo",
+  "recipe_digest": "sha256:9857628d09574db99ad2d6c9cd9eb224ed03e1971d12bb08de1c49a14a424743",
+  "source_digest": "sha256:e04fa0ad8b54254f647be65cdcbdc7d54f467a17865c437aafe8292146381b6b",
+  "runner": "modelbake.fixture/v0",
+  "repeat_run": {
+    "run_id": "e477efcb0825401e867a2b2ed7037a29",
+    "same_inputs": true,
+    "digest_verified_cache_hits": 7
+  },
+  "nodes": [
+    {
+      "id": "source",
+      "kind": "source",
+      "state": "produced",
+      "bytes": 245,
+      "digest": "sha256:dfbb1ead10828083b1cccab4dbc6060ab62fbab8301ae8ff9de1ffe18d14cd1d"
+    },
+    {
+      "id": "f16",
+      "kind": "convert",
+      "state": "produced",
+      "bytes": 444,
+      "digest": "sha256:732562d2e2a1eabde5d7e2ae344adefda8448e319e2d02e93d91b7243cda914b"
+    },
+    {
+      "id": "q4",
+      "kind": "quantize",
+      "state": "produced",
+      "bytes": 547,
+      "digest": "sha256:a8b361ae35ccb5bff63602136a7a80694586b0bfdc86d750b063dfd71fa724c5"
+    },
+    {
+      "id": "q8",
+      "kind": "quantize",
+      "state": "produced",
+      "bytes": 547,
+      "digest": "sha256:1a832aa34778b8009813b8657b458741aff5323a82ad45f2b850e8e133bd5522"
+    },
+    {
+      "id": "run-f16",
+      "kind": "smoke",
+      "state": "fixture_observed",
+      "tokens_observed": 4,
+      "digest": "sha256:eb7094ea3b1be2b8c8078793fd1c2182007adae14ac3ad10eb38658b64cb5ffc"
+    },
+    {
+      "id": "run-q4",
+      "kind": "smoke",
+      "state": "fixture_observed",
+      "tokens_observed": 4,
+      "digest": "sha256:d63d97031ec3e9da400840eee8f5384df2a2fe80c01101812e90c7686e88e38f"
+    },
+    {
+      "id": "run-q8",
+      "kind": "smoke",
+      "state": "fixture_observed",
+      "tokens_observed": 4,
+      "digest": "sha256:7bf34d880416f95648d41cd2a1672256709e4e94841f0a5c28b60b19e4bc8147"
+    }
+  ],
+  "exclusions": [
+    "The fixture uses a private deterministic format, not GGUF.",
+    "No subprocess or llama.cpp runtime is exercised by this browser replay.",
+    "No model quality, numerical equivalence, or cross-hardware compatibility is established."
+  ]
+}

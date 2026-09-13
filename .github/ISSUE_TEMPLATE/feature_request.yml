@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose a focused improvement to the build or evidence workflow.
+title: "[proposal] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Release problem
+      description: Describe the repeated workflow problem, not only the desired feature.
+    validations:
+      required: true
+  - type: textarea
+    id: observation
+    attributes:
+      label: New observation or evidence
+      description: What exact fact would ModelBake record, and how is it observed?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Truth boundary
+      description: Where is the proposed result true, and what nearby conclusion must users not infer?
+    validations:
+      required: true
+  - type: textarea
+    id: repetition
+    attributes:
+      label: Repeated use
+      description: How often does this occur, and where would it integrate into an existing release path?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Existing scripts, tools, or narrower changes that could solve the problem.
+    validations:
+      required: true

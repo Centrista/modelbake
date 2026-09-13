@@ -1,0 +1,28 @@
+schema: modelbake/v0
+project: llama-local-build
+source:
+  kind: local
+  path: fixture/safetensors-source
+  architecture: llama
+  format: safetensors
+targets:
+  - name: f16
+    quantization: F16
+  - name: q4
+    quantization: Q4_0
+  - name: q8
+    quantization: Q8_0
+smoke:
+  prompt: "Reply with one word."
+  max_tokens: 8
+runner:
+  adapter: llamacpp
+  name: local-llama-cpp
+  timeout_seconds: 1800
+  max_log_bytes: 65536
+  tools:
+    python: /usr/bin/python3
+    convert: /opt/llama.cpp/convert_hf_to_gguf.py
+    quantize: /opt/llama.cpp/build/bin/llama-quantize
+    runner: /opt/llama.cpp/build/bin/llama-cli
+    revision: replace-with-pinned-llama-cpp-commit

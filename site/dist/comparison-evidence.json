@@ -1,0 +1,22 @@
+{
+  "schema": "modelbake.public-comparison.v1",
+  "fixture_only": true,
+  "before": {"run_id": "2b3103062e554c6e8f2a493b5bc67f92", "targets": ["Q4_0"]},
+  "after": {"run_id": "b7ab2b3ec8b146e99933accef5a7137b", "targets": ["Q4_0", "Q8_0"]},
+  "lineage": {
+    "recipe_same": false,
+    "source_digest_same": true,
+    "declared_runner_same": true,
+    "observed_runner_same": true
+  },
+  "counts": {"reused_from_cache": 4, "added": 2, "recorded_output_changed": 0},
+  "nodes": [
+    {"id": "source", "change": "reused_from_cache", "recorded_output_digests": "same"},
+    {"id": "convert-f16-base", "change": "reused_from_cache", "recorded_output_digests": "same"},
+    {"id": "quantize-q4", "change": "reused_from_cache", "recorded_output_digests": "same"},
+    {"id": "smoke-q4", "change": "reused_from_cache", "recorded_output_digests": "same"},
+    {"id": "quantize-q8", "change": "added", "recorded_output_digests": "added"},
+    {"id": "smoke-q8", "change": "added", "recorded_output_digests": "added"}
+  ],
+  "truth_boundary": "This is a recorded private-format fixture expansion. It demonstrates comparison and verified cache reuse, not GGUF or model-runtime behavior. No promotion decision is inferred."
+}

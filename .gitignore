@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+build/
+/dist/
+
+# Environments and tools
+.venv/
+venv/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# ModelBake local state and integration assets
+.modelbake/
+.tools/
+.integration/
+release-staging/
+.vercel/
+launch/
+*.gguf
+*.safetensors
+!examples/fixture/safetensors-source/model.safetensors
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*.swp

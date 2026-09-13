@@ -1,0 +1,49 @@
+name: Adapter request
+description: Propose a model format, toolchain, or runner adapter.
+title: "[adapter] "
+labels: [adapter]
+body:
+  - type: input
+    id: route
+    attributes:
+      label: Exact route
+      placeholder: source format and architecture → artifact format → exact runner
+    validations:
+      required: true
+  - type: textarea
+    id: tools
+    attributes:
+      label: Toolchain
+      description: Name the tools, versions/revisions, invocation shape, and redistribution constraints.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence contract
+      description: What outputs and runner observations can be recorded without overstating compatibility?
+    validations:
+      required: true
+  - type: textarea
+    id: fingerprint
+    attributes:
+      label: Fingerprint inputs
+      description: List every tool, setting, runtime, and hardware property that should invalidate cache evidence.
+    validations:
+      required: true
+  - type: textarea
+    id: demand
+    attributes:
+      label: Repeated demand
+      description: Link public examples or describe how many releases would use this route. Do not include private data.
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Boundaries
+      options:
+        - label: I understand ModelBake does not accept arbitrary recipe commands.
+          required: true
+        - label: I have identified the nearest misleading compatibility or quality claim.
+          required: true

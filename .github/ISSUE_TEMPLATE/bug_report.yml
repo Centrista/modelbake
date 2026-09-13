@@ -1,0 +1,61 @@
+name: Bug report
+description: Report reproducible incorrect behavior in ModelBake.
+title: "[bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include private model weights, prompts, credentials, or security vulnerabilities. Use private vulnerability reporting for security issues.
+  - type: input
+    id: version
+    attributes:
+      label: ModelBake version or commit
+      placeholder: 0.1.0 or commit SHA
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      placeholder: macOS 15 arm64, Python 3.12
+    validations:
+      required: true
+  - type: dropdown
+    id: adapter
+    attributes:
+      label: Adapter
+      options:
+        - fixture
+        - llamacpp
+        - planner, cache, manifest, or other core code
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include a redacted recipe, exact command, and smallest safe input description.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: Include exit code and relevant bounded output or manifest fields.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Data check
+      options:
+        - label: I removed private weights, prompts, credentials, and other sensitive data.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true
