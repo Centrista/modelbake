@@ -9,7 +9,7 @@ unchanged outputs and see exactly what changed.
 The first build creates a release record. Every later build can be compared with
 the last record your team accepted.
 
-[Try the 60-second demo](https://modelbake.dev/) · [Inspect the real build record](https://modelbake.dev/real-evidence.html)
+[Website](https://modelbake.dev/) · [Source](https://github.com/Centrista/modelbake) · [Inspect the real build record](https://modelbake.dev/real-evidence.html)
 
 ![ModelBake release diff](docs/assets/modelbake-homepage.png)
 
@@ -74,6 +74,8 @@ To work on ModelBake itself, clone the repository and create a development
 environment:
 
 ```bash
+git clone https://github.com/Centrista/modelbake.git
+cd modelbake
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install '.[dev]'

@@ -7,7 +7,6 @@ const siteRoot = join(dirname(fileURLToPath(import.meta.url)), "dist");
 const documents = ["index.html", "real-evidence.html", "git-vs-modelbake.html"];
 const expected = [
   "evidence-json|evidence-header|0.1.0",
-  "source|hero|0.1.0",
   "source|integration|0.1.0",
   "source|open|0.1.0",
   "source|workflow|0.1.0",
